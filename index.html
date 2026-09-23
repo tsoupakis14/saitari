@@ -665,7 +665,7 @@
                 <tr>
                   <th>#</th>
                   <th>Αίτημα</th>
-                  <th>Σελίδα / περιοχή</th>
+                  <th>Σελίδα</th>
                   <th>Κατάσταση</th>
                   <th>Υποβλήθηκε</th>
                   <th></th>
@@ -742,24 +742,22 @@
 
   <div class="form-grid">
     <div class="field">
-      <label for="area">Σελίδα / περιοχή</label>
-      <select id="area">
-        <option>Αρχική</option>
-        <option>Σχετικά με εμάς</option>
-        <option>Projects</option>
-        <option>Επικοινωνία</option>
+  <label for="area">Σελίδα / περιοχή</label>
+  <input
+    id="area"
+    type="text"
+    required
+    placeholder="π.χ. Αρχική → υπηρεσίες"
+  />
+</div>
+<div class="field">
+      <label for="priority">Προτεραιότητα</label>
+      <select id="priority">
+        <option>Κανονική</option>
+        <option>Υψηλή</option>
+        <option>Χαμηλή</option>
       </select>
     </div>
-
-    <div class="field">
-  <label for="area">Σελίδα</label>
-  <textarea
-    id="area"
-    rows="1"
-    required
-    placeholder="π.χ. Αρχική σελίδα"
-  ></textarea>
-</div>
   </div>
 
   <div class="field">
