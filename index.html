@@ -491,6 +491,88 @@
       .form-grid { grid-template-columns: 1fr; }
       .account { display: none; }
     }
+    .upload-zone {
+  min-height: 104px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  border: 1.5px dashed #cbd3e3;
+  border-radius: 10px;
+  background: #fafbff;
+  color: #53617c;
+  cursor: pointer;
+  transition: .2s ease;
+}
+
+.upload-zone:hover {
+  border-color: #635bff;
+  background: #f6f5ff;
+}
+
+.upload-zone svg {
+  width: 23px;
+  height: 23px;
+  color: #635bff;
+}
+
+.upload-zone strong,
+.upload-zone small {
+  display: block;
+}
+
+.upload-zone strong {
+  color: #25304a;
+  font-size: .84rem;
+}
+
+.upload-zone small {
+  margin-top: 4px;
+  color: #7b879e;
+  font-size: .76rem;
+}
+
+.image-previews {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 9px;
+  margin-top: 12px;
+}
+
+.image-preview {
+  position: relative;
+  aspect-ratio: 1;
+  overflow: hidden;
+  border: 1px solid #e3e8f2;
+  border-radius: 8px;
+  background: #f3f5f9;
+}
+
+.image-preview img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.remove-image {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 23px;
+  height: 23px;
+  display: grid;
+  place-items: center;
+  border: 0;
+  border-radius: 7px;
+  background: rgba(11,16,32,.78);
+  color: white;
+  cursor: pointer;
+}
+
+.remove-image svg {
+  width: 14px;
+  height: 14px;
+}
   </style>
 </head>
 
@@ -656,6 +738,20 @@
 
           <div class="field">
             <label for="priority">Προτεραιότητα</label>
+            <div class="field">
+  <label for="requestImages">Επισύναψη εικόνων</label>
+
+  <label class="upload-zone" for="requestImages">
+    <i data-lucide="image-plus"></i>
+    <span>
+      <strong>Πρόσθεσε screenshots ή εικόνες</strong>
+      <small>Έως 5 εικόνες · PNG, JPG ή WEBP</small>
+    </span>
+  </label>
+
+  <input id="requestImages" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+  <div class="image-previews" id="requestImagePreviews"></div>
+</div>
             <select id="priority">
               <option>Κανονική</option>
               <option>Υψηλή</option>
@@ -732,6 +828,51 @@
       lucide.createIcons();
       closeModal();
     });
+    const requestImages = document.getElementById("requestImages");
+const requestImagePreviews = document.getElementById("requestImagePreviews");
+let selectedImages = [];
+
+requestImages.addEventListener("change", (event) => {
+  const newImages = [...event.target.files];
+  const availableSlots = 5 - selectedImages.length;
+
+  if (newImages.length > availableSlots) {
+    alert(`Μπορείς να προσθέσεις έως 5 εικόνες συνολικά.`);
+  }
+
+  selectedImages = selectedImages.concat(newImages.slice(0, availableSlots));
+  renderImagePreviews();
+  requestImages.value = "";
+});
+
+function renderImagePreviews() {
+  requestImagePreviews.innerHTML = "";
+
+  selectedImages.forEach((file, index) => {
+    const preview = document.createElement("div");
+    preview.className = "image-preview";
+
+    const image = document.createElement("img");
+    image.src = URL.createObjectURL(file);
+    image.alt = `Επισυναπτόμενη εικόνα ${index + 1}`;
+
+    const removeButton = document.createElement("button");
+    removeButton.type = "button";
+    removeButton.className = "remove-image";
+    removeButton.setAttribute("aria-label", "Αφαίρεση εικόνας");
+    removeButton.innerHTML = '<i data-lucide="x"></i>';
+
+    removeButton.addEventListener("click", () => {
+      selectedImages.splice(index, 1);
+      renderImagePreviews();
+    });
+
+    preview.append(image, removeButton);
+    requestImagePreviews.append(preview);
+  });
+
+  lucide.createIcons();
+}
   </script>
 </body>
 </html>
