@@ -935,7 +935,10 @@
       const title = document.getElementById("title").value.trim();
       const area = document.getElementById("area").value;
 
+      const priority = document.getElementById("priority").value;
+      const description = document.getElementById("description").value;
       const row = document.createElement("tr");
+      
       row.innerHTML = `
         <td class="request-number">#1043</td>
         <td class="request-title"></td>
@@ -947,6 +950,9 @@
 
       row.querySelector(".request-title").textContent = title;
       row.children[2].textContent = area;
+      row.dataset.area = area;
+      row.dataset.priority = priority;
+      row.dataset.description = description;
       rows.prepend(row);
 
       lucide.createIcons();
@@ -1005,6 +1011,9 @@ function openDrawer(row) {
   document.getElementById("drawerTitle").textContent =
     row.querySelector(".request-title").textContent;
 
+  document.getElementById("drawerArea").textContent =
+    row.dataset.area || row.children[2].textContent;
+
   drawer.classList.add("open");
   drawerBackdrop.classList.add("open");
 }
@@ -1014,8 +1023,12 @@ function closeDrawer() {
   drawerBackdrop.classList.remove("open");
 }
 
-document.querySelectorAll("#requestRows tr").forEach((row) => {
-  row.addEventListener("click", () => openDrawer(row));
+document.getElementById("requestRows").addEventListener("click", (event) => {
+  const row = event.target.closest("tr");
+
+  if (row) {
+    openDrawer(row);
+  }
 });
 
 document.getElementById("closeDrawer").addEventListener("click", closeDrawer);
