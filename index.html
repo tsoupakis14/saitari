@@ -967,7 +967,7 @@
       row.dataset.description = description;
       row.dataset.images = JSON.stringify(images);
       rows.prepend(row);
-
+      saveRequests();
       lucide.createIcons();
       closeModal();
     });
@@ -1073,6 +1073,27 @@ function openImage(src) {
 
 lightbox.addEventListener("click", () => lightbox.classList.remove("open"));
 lucide.createIcons();
+
+    const REQUESTS_STORAGE_KEY = "saitari-requests";
+
+function saveRequests() {
+  try {
+    localStorage.setItem(REQUESTS_STORAGE_KEY, rows.innerHTML);
+  } catch (error) {
+    alert("Οι εικόνες είναι πολύ μεγάλες για το demo. Δοκίμασε μικρότερα screenshots.");
+  }
+}
+
+function loadRequests() {
+  const savedRequests = localStorage.getItem(REQUESTS_STORAGE_KEY);
+
+  if (savedRequests) {
+    rows.innerHTML = savedRequests;
+    lucide.createIcons();
+  }
+}
+
+loadRequests();
   </script>
 </body>
 </html>
