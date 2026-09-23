@@ -871,15 +871,26 @@
   </div>
 
   <div class="form-grid" style="margin:24px 0">
-    <div class="field">
-      <label>Σελίδα / περιοχή</label>
-      <strong id="drawerArea">Αρχική</strong>
-    </div>
-    <div class="field">
-      <label>Προτεραιότητα</label>
-      <span class="status status-new">Νέο</span>
-    </div>
+  <div class="field">
+    <label>Σελίδα / περιοχή</label>
+    <strong id="drawerArea">Αρχική</strong>
   </div>
+
+  <div class="field">
+    <label>Προτεραιότητα</label>
+    <strong id="drawerPriority">Κανονική</strong>
+  </div>
+
+  <div class="field" style="grid-column: 1 / -1">
+    <label for="drawerStatus">Κατάσταση</label>
+    <select id="drawerStatus">
+      <option>Νέο</option>
+      <option>Σε εξέλιξη</option>
+      <option>Για έγκριση</option>
+      <option>Ολοκληρώθηκε</option>
+    </select>
+  </div>
+</div>
 
   <div class="field">
     <label>Περιγραφή</label>
@@ -1111,6 +1122,11 @@ const lightbox = document.getElementById("imageLightbox");
 
 function openDrawer(row) {
   activeRequestRow = row;
+  document.getElementById("drawerPriority").textContent =
+  row.dataset.priority || "Κανονική";
+
+document.getElementById("drawerStatus").value =
+  row.querySelector(".status").textContent.trim();
   renderComments();
   document.getElementById("drawerTitle").textContent =
     row.querySelector(".request-title").textContent;
@@ -1268,6 +1284,28 @@ document.getElementById("commentImage").addEventListener("change", async (event)
 
   document.getElementById("commentImagePreview").innerHTML =
     `<img src="${selectedCommentImage}" alt="Προεπισκόπηση εικόνας">`;
+});
+    const statusClasses = {
+  "Νέο": "status-new",
+  "Σε εξέλιξη": "status-progress",
+  "Για έγκριση": "status-review",
+  "Ολοκληρώθηκε": "status-done"
+};
+
+function updateRequestStatus(row, status) {
+  const statusBadge = row.querySelector(".status");
+
+  statusBadge.textContent = status;
+  statusBadge.className = `status ${statusClasses[status]}`;
+
+  row.dataset.status = status;
+  saveRequests();
+}
+
+document.getElementById("drawerStatus").addEventListener("change", (event) => {
+  if (!activeRequestRow) return;
+
+  updateRequestStatus(activeRequestRow, event.target.value);
 });
   </script>
 </body>
