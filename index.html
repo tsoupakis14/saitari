@@ -929,7 +929,16 @@
       if (event.key === "Escape") closeModal();
     });
 
-    form.addEventListener("submit", (event) => {
+    function imageToDataUrl(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader();
+
+    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file);
+  });
+}
+    
+    form.addEventListener("submit", async (event) => {
       event.preventDefault();
 
       const title = document.getElementById("title").value.trim();
@@ -937,6 +946,9 @@
 
       const priority = document.getElementById("priority").value;
       const description = document.getElementById("description").value;
+      const images = await Promise.all(
+        selectedImages.map((image) => imageToDataUrl(image))
+      );
       const row = document.createElement("tr");
       
       row.innerHTML = `
@@ -953,6 +965,7 @@
       row.dataset.area = area;
       row.dataset.priority = priority;
       row.dataset.description = description;
+      row.dataset.images = JSON.stringify(images);
       rows.prepend(row);
 
       lucide.createIcons();
@@ -1014,6 +1027,25 @@ function openDrawer(row) {
   document.getElementById("drawerArea").textContent =
     row.dataset.area || row.children[2].textContent;
 
+  const drawerImages = document.getElementById("drawerImages");
+const images = JSON.parse(row.dataset.images || "[]");
+
+drawerImages.innerHTML = "";
+
+if (images.length === 0) {
+  drawerImages.innerHTML = '<p class="intro">Δεν έχουν προστεθεί εικόνες ακόμη.</p>';
+} else {
+  images.forEach((src, index) => {
+    const button = document.createElement("button");
+    button.className = "drawer-image";
+    button.type = "button";
+    button.innerHTML = `<img src="${src}" alt="Επισυναπτόμενη εικόνα ${index + 1}">`;
+
+    button.addEventListener("click", () => openImage(src));
+    drawerImages.appendChild(button);
+  });
+}
+  
   drawer.classList.add("open");
   drawerBackdrop.classList.add("open");
 }
