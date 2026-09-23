@@ -102,6 +102,7 @@
       align-items: center;
       gap: 12px;
       border: 0;
+      border-left: 3px solid transparent;
       border-radius: 9px;
       padding: 0 14px;
       background: transparent;
@@ -118,8 +119,8 @@
 
     .nav-item.active {
       color: white;
-      background: rgba(99, 91, 255, .2);
-      box-shadow: inset 3px 0 0 var(--indigo);
+      background: transparent;
+      border-left-color: var(--indigo);
     }
 
     .sidebar-footer {
@@ -485,9 +486,16 @@
       .profile div { display: none; }
     }
 
+    .mobile-nav { display: none; }
+
     @media (max-width: 760px) {
       .app { display: block; }
       .sidebar { display: none; }
+      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
+      .mobile-nav a { min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem; }
+      .mobile-nav a.active { color:#fff;border-bottom:2px solid var(--indigo); }
+      .mobile-nav svg { width:19px;height:19px; }
+      body { padding-bottom:82px; }
       .topbar { height: 72px; padding: 0 20px; }
       .search { display: none; }
       main { padding: 38px 20px 50px; }
@@ -715,6 +723,10 @@
 }
 
 .comment-image-preview {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
   margin-top: 10px;
 }
 
@@ -754,7 +766,7 @@
   <i data-lucide="file-text"></i>
   <span>Αιτήματα</span>
 </a>
-        <button class="nav-item"><i data-lucide="monitor"></i><span>Websites</span></button>
+        <a class="nav-item" href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
         <button class="nav-item"><i data-lucide="folder"></i><span>Αρχεία</span></button>
         <button class="nav-item"><i data-lucide="message-square"></i><span>Μηνύματα</span></button>
       </div>
@@ -774,6 +786,11 @@
         </div>
       </div>
     </aside>
+    <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
+      <a class="active" href="index.html" aria-current="page"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
+    </nav>
 
     <div class="content">
       <header class="topbar">
@@ -976,9 +993,7 @@
     <option>Kritivela</option>
     <option>Calendrai</option>
     <option>Portfolio</option>
-    <option>Run</option>
-    <option>Jane</option>
-    <option>Run!</option>
+    <option>Run Jane Run</option>
     <option>Football Quiz</option>
     <option>Fun Quiz</option>
   </select>
@@ -1041,6 +1056,18 @@
     const closeButton = document.getElementById("closeModal");
     const cancelButton = document.getElementById("cancelModal");
     const rows = document.getElementById("requestRows");
+    try {
+      const projects = JSON.parse(localStorage.getItem("saitari-projects") || "[]");
+      const websiteSelect = document.getElementById("website");
+      projects.forEach(project => {
+        if (![...websiteSelect.options].some(option => option.value === project.name)) {
+          const option = document.createElement("option");
+          option.value = project.name;
+          option.textContent = project.name;
+          websiteSelect.appendChild(option);
+        }
+      });
+    } catch (error) {}
 
     function openModal() {
       modal.classList.add("open");
@@ -1066,11 +1093,24 @@
       if (event.key === "Escape") closeModal();
     });
 
-    function imageToDataUrl(file) {
-  return new Promise((resolve) => {
+function imageToDataUrl(file) {
+  return new Promise((resolve, reject) => {
+    if (!file.type.startsWith("image/")) return reject(new Error("Μη έγκυρη εικόνα."));
     const reader = new FileReader();
-
-    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error("Δεν ήταν δυνατή η ανάγνωση της εικόνας."));
+    reader.onload = () => {
+      const img = new Image();
+      img.onerror = () => reject(new Error("Δεν ήταν δυνατή η επεξεργασία της εικόνας."));
+      img.onload = () => {
+        const scale = Math.min(1, 1400 / Math.max(img.width, img.height));
+        const canvas = document.createElement("canvas");
+        canvas.width = Math.round(img.width * scale);
+        canvas.height = Math.round(img.height * scale);
+        canvas.getContext("2d").drawImage(img, 0, 0, canvas.width, canvas.height);
+        resolve(canvas.toDataURL("image/jpeg", .72));
+      };
+      img.src = reader.result;
+    };
     reader.readAsDataURL(file);
   });
 }
@@ -1083,9 +1123,9 @@
       const website = document.getElementById("website").value.trim();
       const priority = document.getElementById("priority").value;
       const description = document.getElementById("description").value;
-      const images = await Promise.all(
-        selectedImages.map((image) => imageToDataUrl(image))
-      );
+      let images;
+      try { images = await Promise.all(selectedImages.map(imageToDataUrl)); }
+      catch (error) { alert(error.message); return; }
       const row = document.createElement("tr");
       
       row.innerHTML = `
@@ -1111,7 +1151,7 @@
       row.dataset.description = description;
       row.dataset.images = JSON.stringify(images);
       rows.prepend(row);
-      saveRequests();
+      if (!saveRequests()) { row.remove(); return; }
       lucide.createIcons();
       closeModal();
     });
@@ -1122,7 +1162,13 @@ let selectedImages = [];
 requestImages.addEventListener("change", (event) => {
   const newImages = [...event.target.files];
   const availableSlots = 5 - selectedImages.length;
+  const tooLarge = newImages.find(file => file.size > 20 * 1024 * 1024);
 
+  if (tooLarge) {
+    alert("Η εικόνα ξεπερνά τα 20 MB. Επίλεξε μικρότερο αρχείο.");
+    event.target.value = "";
+    return;
+  }
   if (newImages.length > availableSlots) {
     alert(`Μπορείς να προσθέσεις έως 5 εικόνες συνολικά.`);
   }
@@ -1230,8 +1276,10 @@ lucide.createIcons();
 function saveRequests() {
   try {
     localStorage.setItem(REQUESTS_STORAGE_KEY, rows.innerHTML);
+    return true;
   } catch (error) {
-    alert("Οι εικόνες είναι πολύ μεγάλες για το demo. Δοκίμασε μικρότερα screenshots.");
+    alert("Δεν χωράει άλλο περιεχόμενο στην τοπική αποθήκευση του browser. Αφαίρεσε μία εικόνα ή δοκίμασε μικρότερο αρχείο.");
+    return false;
   }
 }
 
@@ -1240,6 +1288,14 @@ function loadRequests() {
 
   if (savedRequests) {
     rows.innerHTML = savedRequests;
+    [...rows.rows].forEach(row => {
+      if (["Run", "Jane", "Run!"].includes(row.dataset.website)) {
+        row.dataset.website = "Run Jane Run";
+        const label = row.querySelector(".request-website-label");
+        if (label) label.textContent = "Run Jane Run";
+      }
+    });
+    saveRequests();
     lucide.createIcons();
   }
 }
@@ -1306,9 +1362,10 @@ document.getElementById("commentForm").addEventListener("submit", (event) => {
     date: new Date().toLocaleString("el-GR")
   });
 
+  const previousComments = activeRequestRow.dataset.comments || "[]";
   activeRequestRow.dataset.comments = JSON.stringify(comments);
 
-  saveRequests();
+  if (!saveRequests()) { activeRequestRow.dataset.comments = previousComments; return; }
   renderComments();
 
   input.value = "";
@@ -1324,10 +1381,21 @@ document.getElementById("commentImage").addEventListener("change", async (event)
 
   if (!image) return;
 
-  selectedCommentImage = await imageToDataUrl(image);
-
-  document.getElementById("commentImagePreview").innerHTML =
-    `<img src="${selectedCommentImage}" alt="Προεπισκόπηση εικόνας">`;
+  try {
+    selectedCommentImage = await imageToDataUrl(image);
+    const preview = document.getElementById("commentImagePreview");
+    preview.innerHTML = '<img alt="Προεπισκόπηση εικόνας"><button type="button" class="remove-image" aria-label="Αφαίρεση εικόνας">×</button>';
+    preview.querySelector("img").src = selectedCommentImage;
+    preview.querySelector("button").addEventListener("click", () => {
+      selectedCommentImage = null;
+      event.target.value = "";
+      preview.innerHTML = "";
+    });
+  } catch (error) {
+    selectedCommentImage = null;
+    event.target.value = "";
+    alert(error.message);
+  }
 });
     const statusClasses = {
   "Νέο": "status-new",
@@ -1338,12 +1406,18 @@ document.getElementById("commentImage").addEventListener("change", async (event)
 
 function updateRequestStatus(row, status) {
   const statusBadge = row.querySelector(".status");
+  const previousStatus = statusBadge.textContent;
 
   statusBadge.textContent = status;
   statusBadge.className = `status ${statusClasses[status]}`;
 
   row.dataset.status = status;
-  saveRequests();
+  if (!saveRequests()) {
+    statusBadge.textContent = previousStatus;
+    statusBadge.className = `status ${statusClasses[previousStatus]}`;
+    row.dataset.status = previousStatus;
+    document.getElementById("drawerStatus").value = previousStatus;
+  }
 }
 
 document.getElementById("drawerStatus").addEventListener("change", (event) => {

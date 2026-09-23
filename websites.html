@@ -18,12 +18,12 @@
 .content{min-width:0}.topbar{height:95px;display:flex;align-items:center;justify-content:space-between;gap:20px;padding:0 46px;border-bottom:1px solid var(--border);background:#ffffffba}
 .search{width:min(390px,40vw);display:flex;align-items:center;gap:10px;padding:12px 14px;border-radius:10px;background:#f2f5fb;color:var(--muted)}.search svg{width:18px}.search input{width:100%;border:0;outline:0;background:transparent;color:var(--text);font-size:.88rem}.top-actions{display:flex;align-items:center;gap:22px}.icon-button{width:37px;height:37px;display:grid;place-items:center;border:0;border-radius:9px;background:transparent;color:#3c4966}.icon-button svg{width:20px}.account{display:flex;align-items:center;gap:10px;font-size:.88rem;font-weight:600}.account svg{width:16px;color:var(--muted)}
 main{width:min(100%,1320px);margin:0 auto;padding:56px 46px 70px}h1,h2{margin:0;font-family:"Space Grotesk",sans-serif;letter-spacing:-.05em}h1{font-size:clamp(2rem,4vw,3.3rem);line-height:1}.intro{margin:12px 0 0;color:var(--muted);font-size:.96rem}
-.page-header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:32px}.header-link{display:inline-flex;align-items:center;gap:8px;color:var(--indigo);font-size:.86rem;font-weight:700;text-decoration:none}.header-link svg{width:17px}
+.page-header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:32px}.header-link{display:inline-flex;align-items:center;gap:8px;color:var(--indigo);font-size:.86rem;font-weight:700;text-decoration:none}.header-link svg{width:17px}.primary-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 15px;border:0;border-radius:9px;background:var(--indigo);color:white;font:600 .87rem Inter;cursor:pointer}.primary-button svg{width:17px}
 .project-search{width:100%;max-width:440px;height:46px;margin:0 0 18px;padding:0 14px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;outline:0}.project-search:focus{border-color:var(--indigo);box-shadow:0 0 0 3px #635bff1c}
 .project-count{margin:0 0 15px;color:var(--muted);font-size:.82rem}.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.project-card{min-height:228px;padding:23px;border:1px solid var(--border);border-radius:15px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .18s,border-color .18s}.project-card:hover{transform:translateY(-3px);border-color:#c9c6ff}.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.project-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#eeedff;color:var(--indigo)}.project-icon svg{width:21px}.project-type{color:var(--muted);font-size:.75rem}.project-card h2{margin-top:20px;font-size:1.2rem}.project-meta{margin:6px 0 0;color:var(--muted);font-size:.81rem}.project-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:22px}.request-count{color:#65718b;font-size:.79rem}.open-project{display:inline-flex;align-items:center;gap:6px;color:var(--indigo);font-size:.82rem;font-weight:700;text-decoration:none}.open-project svg{width:16px}
 .empty-state{padding:45px 20px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);text-align:center}.empty-state[hidden]{display:none}
-@media(max-width:1100px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:1020px){.app{grid-template-columns:76px minmax(0,1fr)}.sidebar{padding-inline:10px}.brand{justify-content:center;margin-inline:0}.brand>span:last-child,.nav-label,.nav-item>span{display:none}.nav-item{justify-content:center;padding:0}.nav-item svg{width:20px;height:20px}.profile{justify-content:center}.profile div{display:none}}
-@media(max-width:760px){.app{display:block}.sidebar{display:none}.topbar{height:72px;padding:0 20px}.search{display:none}main{padding:38px 20px 50px}.page-header{align-items:flex-start;flex-direction:column;margin-bottom:25px}.project-grid{grid-template-columns:1fr}}
+.mobile-nav{display:none}@media(max-width:1100px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:1020px){.app{grid-template-columns:76px minmax(0,1fr)}.sidebar{padding-inline:10px}.brand{justify-content:center;margin-inline:0}.brand>span:last-child,.nav-label,.nav-item>span{display:none}.nav-item{justify-content:center;padding:0}.nav-item svg{width:20px;height:20px}.profile{justify-content:center}.profile div{display:none}}
+@media(max-width:760px){.app{display:block}.sidebar{display:none}.mobile-nav{display:grid;position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044}.mobile-nav a{min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem}.mobile-nav a.active{color:#fff;border-bottom:2px solid var(--indigo)}.mobile-nav svg{width:19px;height:19px}body{padding-bottom:82px}.topbar{height:72px;padding:0 20px}.search{display:none}main{padding:38px 20px 50px}.page-header{align-items:flex-start;flex-direction:column;margin-bottom:25px}.project-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.account{display:none}}
 </style>
 </head>
@@ -40,10 +40,11 @@ main{width:min(100%,1320px);margin:0 auto;padding:56px 46px 70px}h1,h2{margin:0;
 <div class="nav-group"><p class="nav-label">Ρυθμίσεις</p><a class="nav-item" href="#"><i data-lucide="settings"></i><span>Ρυθμίσεις</span></a></div>
 <div class="sidebar-footer"><div class="profile"><span class="avatar">NT</span><div><strong>Tasos</strong><small>Designer</small></div></div></div>
 </aside>
+<nav class="mobile-nav" aria-label="Κύρια πλοήγηση"><a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a><a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a><a class="active" href="websites.html" aria-current="page"><i data-lucide="monitor"></i><span>Websites</span></a></nav>
 <div class="content">
-<header class="topbar"><label class="search"><i data-lucide="search"></i><input id="topSearch" type="search" placeholder="Αναζήτηση projects..." aria-label="Αναζήτηση projects"></label><div class="top-actions"><a class="header-link" href="portfolio.html">Portfolio case study</a><button class="icon-button" aria-label="Ειδοποιήσεις"><i data-lucide="bell"></i></button><div class="account">Tasos <i data-lucide="chevron-down"></i></div></div></header>
+<header class="topbar"><label class="search"><i data-lucide="search"></i><input id="topSearch" type="search" placeholder="Αναζήτηση projects..." aria-label="Αναζήτηση projects"></label><div class="top-actions"><a class="header-link" href="index.html">Dashboard</a><button class="icon-button" aria-label="Ειδοποιήσεις"><i data-lucide="bell"></i></button><div class="account">Tasos <i data-lucide="chevron-down"></i></div></div></header>
 <main>
-<section class="page-header"><div><h1>Websites</h1><p class="intro">Projects, πελάτες και αιτήματα σε ένα σημείο.</p></div></section>
+<section class="page-header"><div><h1>Websites</h1><p class="intro">Projects, πελάτες και αιτήματα σε ένα σημείο.</p></div><button class="primary-button" id="addProject"><i data-lucide="plus"></i>Νέο project</button></section>
 <input class="project-search" id="projectSearch" type="search" placeholder="Αναζήτηση website ή πελάτη..." aria-label="Αναζήτηση website ή πελάτη">
 <p class="project-count" id="projectCount"></p>
 <section class="project-grid" id="projectGrid" aria-live="polite"></section>
@@ -56,23 +57,31 @@ const projects=[
 {name:"Kritivela",client:"Elena P. · Hospitality",type:"Boutique stays",icon:"building-2",description:"Ιστότοπος φιλοξενίας και κρατήσεων."},
 {name:"Calendrai",client:"Marios K. · Services",type:"Scheduling",icon:"calendar-days",description:"Ραντεβού και online ημερολόγιο."},
 {name:"Portfolio",client:"Nadia S. · Creative",type:"Portfolio",icon:"briefcase-business",description:"Παρουσίαση δουλειάς και projects."},
-{name:"Run",client:"Alex D. · Fitness",type:"Running club",icon:"move-up-right",description:"Πρόγραμμα προπονήσεων και κοινότητα."},
-{name:"Jane",client:"Jane M. · Studio",type:"Personal brand",icon:"user-round",description:"Προσωπικό website και υπηρεσίες."},
-{name:"Run!",client:"Chris L. · Coaching",type:"Fitness",icon:"zap",description:"Προπονητική και online εγγραφές."},
+{name:"Run Jane Run",client:"Alex D. · Fitness",type:"Running club",icon:"move-up-right",description:"Πρόγραμμα προπονήσεων και κοινότητα."},
 {name:"Football Quiz",client:"Leo P. · Games",type:"Quiz game",icon:"trophy",description:"Διαδραστικό quiz για ποδόσφαιρο."},
 {name:"Fun Quiz",client:"Mina R. · Games",type:"Quiz game",icon:"circle-help",description:"Σύντομα quiz για φίλους και παρέες."}
 ];
+const PROJECTS_KEY="saitari-projects";
+try { const stored=JSON.parse(localStorage.getItem(PROJECTS_KEY)||"[]"); stored.forEach(item=>{if(!projects.some(p=>p.name.toLowerCase()===item.name.toLowerCase())) projects.push(item)}); } catch(e){}
 let savedRows=[];try{const raw=localStorage.getItem("saitari-requests");if(raw){const tb=document.createElement("tbody");tb.innerHTML=raw;savedRows=[...tb.rows]}}catch(e){}
 const grid=document.getElementById("projectGrid");
-projects.forEach(project=>{
-const count=savedRows.filter(row=>row.dataset.website===project.name).length;
+function renderProjects(){grid.innerHTML="";projects.forEach(project=>{
+const count=savedRows.filter(row=>(["Run","Jane","Run!"].includes(row.dataset.website)?"Run Jane Run":row.dataset.website)===project.name).length;
 const card=document.createElement("article");card.className="project-card";card.dataset.search=(project.name+" "+project.client+" "+project.type).toLowerCase();
 card.innerHTML='<div class="card-top"><span class="project-icon"><i data-lucide="'+project.icon+'"></i></span><span class="project-type"></span></div><h2></h2><p class="project-meta"></p><div class="project-bottom"><span class="request-count"></span><a class="open-project" href="#"><span>Προβολή αιτημάτων</span><i data-lucide="arrow-up-right"></i></a></div>';
 card.querySelector(".project-type").textContent=project.type;card.querySelector("h2").textContent=project.name;card.querySelector(".project-meta").textContent=project.client+" · "+project.description;card.querySelector(".request-count").textContent=count+" "+(count===1?"αίτημα":"αιτήματα");card.querySelector("a").href="requests.html?website="+encodeURIComponent(project.name);grid.appendChild(card)
-});
-lucide.createIcons();
+});lucide.createIcons();}
+renderProjects();
 const search=document.getElementById("projectSearch"),topSearch=document.getElementById("topSearch"),empty=document.getElementById("emptyState"),count=document.getElementById("projectCount");
 function filterProjects(){const term=search.value.trim().toLowerCase();let visible=0;[...grid.children].forEach(card=>{const show=card.dataset.search.includes(term);card.hidden=!show;if(show)visible++});count.textContent=visible+" "+(visible===1?"project":"projects");empty.hidden=visible!==0}
+document.getElementById("addProject").addEventListener("click",()=>{
+ const name=prompt("Όνομα νέου project:"); if(!name||!name.trim())return;
+ if(projects.some(p=>p.name.toLowerCase()===name.trim().toLowerCase())){alert("Υπάρχει ήδη project με αυτό το όνομα.");return;}
+ const client=prompt("Πελάτης ή σύντομη περιγραφή:")||"Νέο project";
+ const project={name:name.trim(),client:client.trim(),type:"Website",icon:"globe-2",description:"Project website."};
+ projects.push(project); try{localStorage.setItem(PROJECTS_KEY,JSON.stringify(projects.filter(p=>!['Saitari','Kritivela','Calendrai','Portfolio','Run Jane Run','Football Quiz','Fun Quiz'].includes(p.name))))}catch(e){}
+ renderProjects();filterProjects();
+});
 search.addEventListener("input",()=>{topSearch.value=search.value;filterProjects()});topSearch.addEventListener("input",()=>{search.value=topSearch.value;filterProjects()});filterProjects();
 </script>
 </body></html>

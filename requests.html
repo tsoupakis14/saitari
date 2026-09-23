@@ -355,9 +355,16 @@
       .profile div { display: none; }
     }
 
+    .mobile-nav { display: none; }
+
     @media (max-width: 760px) {
       .app { display: block; }
       .sidebar { display: none; }
+      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
+      .mobile-nav a { min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem; }
+      .mobile-nav a.active { color:#fff;border-bottom:2px solid var(--indigo); }
+      .mobile-nav svg { width:19px;height:19px; }
+      body { padding-bottom:82px; }
       .topbar { height: 72px; padding: 0 20px; }
       .search { display: none; }
       main { padding: 38px 20px 50px; }
@@ -427,6 +434,11 @@
         </div>
       </div>
     </aside>
+    <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
+      <a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+      <a class="active" href="requests.html" aria-current="page"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
+    </nav>
 
     <div class="content">
       <header class="topbar">
@@ -512,10 +524,13 @@
       return row.cells[index]?.textContent.trim() || "";
     }
 
-    const DEMO_WEBSITES = ["Saitari", "Kritivela", "Calendrai", "Portfolio", "Run", "Jane", "Run!", "Football Quiz", "Fun Quiz"];
+    const DEMO_WEBSITES = ["Saitari", "Kritivela", "Calendrai", "Portfolio", "Run Jane Run", "Football Quiz", "Fun Quiz"];
 
     function populateWebsiteFilter(rows) {
-      const websites = new Set();
+      const websites = new Set(DEMO_WEBSITES);
+      try {
+        JSON.parse(localStorage.getItem("saitari-projects") || "[]").forEach(project => websites.add(project.name));
+      } catch (error) {}
 
       rows.forEach((row) => {
         const website = row.dataset.website || "";
@@ -547,6 +562,9 @@
 
       savedRows.forEach((row) => {
         const copy = row.cloneNode(true);
+        if (["Run", "Jane", "Run!"].includes(copy.dataset.website)) {
+          copy.dataset.website = "Run Jane Run";
+        }
 
         // Αφαιρεί τη στήλη με τις επιλογές, αν υπάρχει.
         if (copy.cells.length > 5) copy.deleteCell(copy.cells.length - 1);
@@ -615,4 +633,3 @@
   </script>
 </body>
 </html>
-
