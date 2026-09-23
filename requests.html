@@ -1,43 +1,595 @@
 <!doctype html>
 <html lang="el">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Αιτήματα — Saitari</title>
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-<script src="https://unpkg.com/lucide@latest"></script>
-<style>
-:root{--ink:#0b1020;--indigo:#635bff;--canvas:#f7f8fc;--surface:#fff;--border:#e3e8f2;--text:#151c32;--muted:#75809a}
-*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--text);font-family:Inter,sans-serif}.app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{height:100vh;position:sticky;top:0;display:flex;flex-direction:column;padding:30px 14px 20px;background:var(--ink);color:#bdc8e6}.brand{display:flex;align-items:center;gap:11px;margin:0 14px 42px;color:#fff;font:700 1.55rem "Space Grotesk";letter-spacing:-.06em}.mark{width:33px;height:33px;display:grid;place-items:center;border-radius:10px;background:#635bff;font-size:.8rem}.label{margin:0 14px 9px;color:#7280a4;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.nav{display:flex;align-items:center;gap:12px;min-height:45px;padding:0 14px;border-left:3px solid transparent;color:#bdc8e6;text-decoration:none;font-size:.89rem}.nav:hover{color:#fff}.nav.active{border-left-color:var(--indigo);color:#fff}.nav svg{width:18px}.footer{margin-top:auto;padding:18px 12px 0;border-top:1px solid #ffffff17;color:#fff;font-size:.83rem}.topbar{height:95px;display:flex;align-items:center;justify-content:space-between;padding:0 46px;border-bottom:1px solid var(--border);background:#ffffffbb}.topbar input{width:min(390px,40vw);border:0;border-radius:10px;padding:13px 15px;background:#f2f5fb;font:inherit}.account{font-weight:600}main{max-width:1320px;margin:auto;padding:56px 46px 70px}h1{margin:0;font:700 clamp(2rem,4vw,3.3rem)/1 "Space Grotesk";letter-spacing:-.06em}.intro{color:var(--muted)}.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin:34px 0 18px}.toolbar input,.toolbar select{min-height:44px;padding:0 13px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--text);font:inherit}.toolbar input{min-width:240px;flex:1}.count{color:var(--muted);font-size:.84rem}.panel{overflow:auto;border:1px solid var(--border);border-radius:15px;background:#fff}table{width:100%;min-width:720px;border-collapse:collapse}th,td{padding:19px 25px;border-bottom:1px solid var(--border);text-align:left;font-size:.88rem}th{color:var(--muted);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}tbody tr{cursor:pointer}tbody tr:hover{background:#fafbff}.status{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;font-size:.8rem;font-weight:700}.status:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}.status-new{color:#5d55eb;background:#eeedff}.status-progress{color:#2878ed;background:#eaf3ff}.status-review{color:#bc7300;background:#fff5e2}.status-done{color:#009f82;background:#e3fff8}.empty{padding:55px;text-align:center;color:var(--muted)}@media(max-width:760px){.app{display:block}.sidebar{display:none}.topbar{padding:0 20px}.topbar input{width:65vw}main{padding:38px 20px}}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Όλα τα αιτήματα του Saitari." />
+  <title>Αιτήματα — Saitari</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    :root {
+      --ink: #0b1020;
+      --indigo: #635bff;
+      --canvas: #f7f8fc;
+      --surface: #ffffff;
+      --border: #e3e8f2;
+      --text: #151c32;
+      --muted: #75809a;
+      --shadow: 0 16px 42px rgba(22, 31, 65, .06);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      color: var(--text);
+      background: var(--canvas);
+      font-family: "Inter", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    button, input, select { font: inherit; }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 250px minmax(0, 1fr);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 30px 14px 20px;
+      display: flex;
+      flex-direction: column;
+      background: var(--ink);
+      color: #c9d2eb;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      margin: 0 14px 42px;
+      color: white;
+      font-family: "Space Grotesk", sans-serif;
+      font-size: 1.55rem;
+      font-weight: 700;
+      letter-spacing: -.06em;
+    }
+
+    .brand-mark {
+      width: 33px;
+      height: 33px;
+      display: grid;
+      place-items: center;
+      border-radius: 10px;
+      background: linear-gradient(140deg, var(--indigo), #887fff);
+      color: white;
+      font-size: .8rem;
+      letter-spacing: 0;
+    }
+
+    .nav-label {
+      margin: 0 14px 9px;
+      color: #7280a4;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .nav-group { margin-bottom: 29px; }
+
+    .nav-item {
+      width: 100%;
+      min-height: 45px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border: 0;
+      border-left: 3px solid transparent;
+      border-radius: 9px;
+      padding: 0 14px;
+      background: transparent;
+      color: #bdc8e6;
+      text-align: left;
+      text-decoration: none;
+      font-size: .89rem;
+      font-weight: 500;
+      transition: .2s ease;
+    }
+
+    .nav-item svg { width: 18px; height: 18px; stroke-width: 1.8; }
+    .nav-item:hover { color: white; background: rgba(255,255,255,.06); }
+
+    .nav-item.active {
+      border-left-color: var(--indigo);
+      color: white;
+      background: transparent;
+    }
+
+    .sidebar-footer {
+      margin-top: auto;
+      padding: 18px 12px 0;
+      border-top: 1px solid rgba(255,255,255,.09);
+    }
+
+    .profile {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .avatar {
+      width: 33px;
+      height: 33px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #7069ff, #3731a9);
+      color: white;
+      font-size: .69rem;
+      font-weight: 700;
+    }
+
+    .profile strong, .profile small { display: block; }
+    .profile strong { color: white; font-size: .83rem; }
+    .profile small { margin-top: 2px; color: #8090b5; font-size: .72rem; }
+
+    .content { min-width: 0; }
+
+    .topbar {
+      height: 95px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      padding: 0 46px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.72);
+    }
+
+    .search {
+      width: min(390px, 40vw);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f2f5fb;
+      color: var(--muted);
+    }
+
+    .search svg { width: 18px; height: 18px; }
+
+    .search input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: .88rem;
+    }
+
+    .top-actions { display: flex; align-items: center; gap: 22px; }
+
+    .icon-button {
+      width: 37px;
+      height: 37px;
+      display: grid;
+      place-items: center;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #3c4966;
+    }
+
+    .icon-button:hover { background: #f1f4fa; }
+    .icon-button svg { width: 20px; height: 20px; }
+
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+    }
+
+    .account svg { width: 16px; height: 16px; color: var(--muted); }
+
+    main {
+      width: min(100%, 1320px);
+      margin: 0 auto;
+      padding: 56px 46px 70px;
+    }
+
+    .page-header { margin-bottom: 36px; }
+
+    h1, h2 {
+      margin: 0;
+      font-family: "Space Grotesk", sans-serif;
+      letter-spacing: -.05em;
+    }
+
+    h1 {
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1;
+    }
+
+    .intro {
+      margin: 12px 0 0;
+      color: var(--muted);
+      font-size: .96rem;
+    }
+
+    .filters {
+      display: grid;
+      grid-template-columns: minmax(220px, 1fr) repeat(3, minmax(155px, 200px));
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .filters input,
+    .filters select {
+      width: 100%;
+      min-height: 46px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 0 13px;
+      outline: none;
+      background: white;
+      color: var(--text);
+      font-size: .86rem;
+    }
+
+    .filters input:focus,
+    .filters select:focus {
+      border-color: var(--indigo);
+      box-shadow: 0 0 0 3px rgba(99,91,255,.11);
+    }
+
+    .results-count {
+      margin: 0 0 13px;
+      color: var(--muted);
+      font-size: .82rem;
+    }
+
+    .requests-panel {
+      border: 1px solid var(--border);
+      border-radius: 15px;
+      overflow: hidden;
+      background: var(--surface);
+      box-shadow: var(--shadow);
+    }
+
+    .table-wrap { overflow-x: auto; }
+
+    table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+    }
+
+    th {
+      padding: 17px 24px;
+      border-bottom: 1px solid var(--border);
+      color: #8a94aa;
+      text-align: left;
+      font-size: .68rem;
+      font-weight: 700;
+      letter-spacing: .09em;
+      text-transform: uppercase;
+    }
+
+    td {
+      padding: 20px 24px;
+      border-bottom: 1px solid #edf0f6;
+      color: #5c6984;
+      font-size: .88rem;
+    }
+
+    tbody tr { cursor: pointer; transition: background .18s ease; }
+    tbody tr:hover { background: #fafbff; }
+    tbody tr:last-child td { border-bottom: 0; }
+
+    .request-number { color: #8190ae; font-size: .8rem; }
+    .request-title { color: var(--text); font-weight: 650; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      min-height: 38px;
+      padding: 0 16px;
+      border-radius: 999px;
+      font-size: .81rem;
+      font-weight: 650;
+      white-space: nowrap;
+    }
+
+    .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
+    }
+
+    .status-new { color: #5d55eb; background: #eeedff; }
+    .status-progress { color: #2878ed; background: #eaf3ff; }
+    .status-review { color: #bc7300; background: #fff5e2; }
+    .status-done { color: #009f82; background: #e3fff8; }
+
+    .empty-state {
+      padding: 56px 24px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    .empty-state[hidden] { display: none; }
+
+    @media (max-width: 1100px) {
+      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 1020px) {
+      .app { grid-template-columns: 76px minmax(0, 1fr); }
+      .sidebar { padding-inline: 10px; }
+      .brand { justify-content: center; margin-inline: 0; }
+      .brand > span:last-child,
+      .nav-label,
+      .nav-item > span,
+      .sidebar-footer > div:not(.profile) { display: none; }
+      .nav-item { justify-content: center; padding: 0; }
+      .nav-item svg { width: 20px; height: 20px; }
+      .profile { justify-content: center; }
+      .profile div { display: none; }
+    }
+
+    @media (max-width: 760px) {
+      .app { display: block; }
+      .sidebar { display: none; }
+      .topbar { height: 72px; padding: 0 20px; }
+      .search { display: none; }
+      main { padding: 38px 20px 50px; }
+      .filters { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .account { display: none; }
+    }
+  </style>
 </head>
+
 <body>
-<div class="app">
-<aside class="sidebar">
-<div class="brand"><span class="mark">S</span>Saitari</div>
-<p class="label">Workspace</p>
-<a class="nav" href="index.html"><i data-lucide="layout-dashboard"></i>Dashboard</a>
-<a class="nav active" href="requests.html"><i data-lucide="file-text"></i>Αιτήματα</a>
-<a class="nav" href="#"><i data-lucide="monitor"></i>Websites</a>
-<a class="nav" href="#"><i data-lucide="folder"></i>Αρχεία</a>
-<a class="nav" href="#"><i data-lucide="message-square"></i>Μηνύματα</a>
-<p class="label" style="margin-top:28px">Ρυθμίσεις</p>
-<a class="nav" href="#"><i data-lucide="settings"></i>Ρυθμίσεις</a>
-<div class="footer">Tasos<br><span style="color:#8090b5">Designer</span></div>
-</aside>
-<div>
-<header class="topbar"><input placeholder="Αναζήτηση αιτημάτων…"><span class="account">Tasos⌄</span></header>
-<main>
-<h1>Όλα τα αιτήματα</h1><p class="intro">Αναζήτησε και διαχειρίσου όλα τα αιτήματα του workspace.</p>
-<div class="toolbar"><input id="search" placeholder="Αναζήτηση τίτλου ή σελίδας…"><select id="statusFilter"><option value="">Όλες οι καταστάσεις</option><option>Νέο</option><option>Σε εξέλιξη</option><option>Για έγκριση</option><option>Ολοκληρώθηκε</option></select></div>
-<p class="count" id="count"></p>
-<section class="panel"><table><thead><tr><th>#</th><th>Αίτημα</th><th>Σελίδα</th><th>Κατάσταση</th><th>Υποβλήθηκε</th></tr></thead><tbody id="list"></tbody></table><div class="empty" id="empty" hidden>Δεν βρέθηκαν αιτήματα.</div></section>
-</main></div></div>
-<script>
-lucide.createIcons();
-const saved=localStorage.getItem("saitari-requests"),list=document.getElementById("list"),search=document.getElementById("search"),filter=document.getElementById("statusFilter");
-if(saved){const temp=document.createElement("tbody");temp.innerHTML=saved;[...temp.rows].forEach(row=>{const copy=row.cloneNode(true);if(copy.cells.length>5)copy.deleteCell(5);copy.onclick=()=>{localStorage.setItem("saitari-selected-request",copy.outerHTML);location.href="index.html"};list.appendChild(copy)})}
-function apply(){let n=0;[...list.rows].forEach(row=>{const ok=row.textContent.toLowerCase().includes(search.value.toLowerCase())&&(!filter.value||row.querySelector(".status")?.textContent.trim()===filter.value);row.hidden=!ok;if(ok)n++});count.textContent=`${n} αιτήματα`;empty.hidden=n!==0}
-search.oninput=apply;filter.onchange=apply;apply();
-</script>
-</body></html>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <span class="brand-mark">S</span>
+        <span>Saitari</span>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-label">Workspace</p>
+        <a class="nav-item" href="index.html">
+          <i data-lucide="layout-dashboard"></i>
+          <span>Dashboard</span>
+        </a>
+        <a class="nav-item active" href="requests.html" aria-current="page">
+          <i data-lucide="file-text"></i>
+          <span>Αιτήματα</span>
+        </a>
+        <a class="nav-item" href="#">
+          <i data-lucide="monitor"></i>
+          <span>Websites</span>
+        </a>
+        <a class="nav-item" href="#">
+          <i data-lucide="folder"></i>
+          <span>Αρχεία</span>
+        </a>
+        <a class="nav-item" href="#">
+          <i data-lucide="message-square"></i>
+          <span>Μηνύματα</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-label">Ρυθμίσεις</p>
+        <a class="nav-item" href="#">
+          <i data-lucide="settings"></i>
+          <span>Ρυθμίσεις</span>
+        </a>
+      </div>
+
+      <div class="sidebar-footer">
+        <div class="profile">
+          <span class="avatar">NT</span>
+          <div>
+            <strong>Tasos</strong>
+            <small>Designer</small>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <div class="content">
+      <header class="topbar">
+        <label class="search">
+          <i data-lucide="search"></i>
+          <input id="topSearch" type="search" placeholder="Αναζήτηση αιτημάτων..." />
+        </label>
+
+        <div class="top-actions">
+          <button class="icon-button" aria-label="Ειδοποιήσεις">
+            <i data-lucide="bell"></i>
+          </button>
+          <div class="account">Tasos <i data-lucide="chevron-down"></i></div>
+        </div>
+      </header>
+
+      <main>
+        <section class="page-header">
+          <h1>Όλα τα αιτήματα</h1>
+          <p class="intro">Αναζήτησε και διαχειρίσου τα αιτήματα του workspace.</p>
+        </section>
+
+        <section class="filters" aria-label="Φίλτρα αιτημάτων">
+          <input id="requestSearch" type="search" placeholder="Αναζήτηση τίτλου ή σελίδας..." />
+          <select id="statusFilter" aria-label="Φίλτρο κατάστασης">
+            <option value="">Όλες οι καταστάσεις</option>
+            <option value="Νέο">Νέο</option>
+            <option value="Σε εξέλιξη">Σε εξέλιξη</option>
+            <option value="Για έγκριση">Για έγκριση</option>
+            <option value="Ολοκληρώθηκε">Ολοκληρώθηκε</option>
+          </select>
+          <select id="priorityFilter" aria-label="Φίλτρο προτεραιότητας">
+            <option value="">Όλες οι προτεραιότητες</option>
+            <option value="Υψηλή">Υψηλή</option>
+            <option value="Κανονική">Κανονική</option>
+            <option value="Χαμηλή">Χαμηλή</option>
+          </select>
+          <select id="websiteFilter" aria-label="Φίλτρο website">
+            <option value="">Όλα τα websites</option>
+          </select>
+        </section>
+
+        <p class="results-count" id="resultsCount"></p>
+
+        <section class="requests-panel">
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Αίτημα</th>
+                  <th>Σελίδα</th>
+                  <th>Κατάσταση</th>
+                  <th>Υποβλήθηκε</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody id="requestList"></tbody>
+            </table>
+          </div>
+          <div class="empty-state" id="emptyState" hidden>
+            Δεν βρέθηκαν αιτήματα με αυτά τα φίλτρα.
+          </div>
+        </section>
+      </main>
+    </div>
+  </div>
+
+  <script>
+    lucide.createIcons();
+
+    const STORAGE_KEY = "saitari-requests";
+    const list = document.getElementById("requestList");
+    const searchInput = document.getElementById("requestSearch");
+    const topSearch = document.getElementById("topSearch");
+    const statusFilter = document.getElementById("statusFilter");
+    const priorityFilter = document.getElementById("priorityFilter");
+    const websiteFilter = document.getElementById("websiteFilter");
+    const resultsCount = document.getElementById("resultsCount");
+    const emptyState = document.getElementById("emptyState");
+
+    function getCellText(row, index) {
+      return row.cells[index]?.textContent.trim() || "";
+    }
+
+    function populateWebsiteFilter(rows) {
+      const websites = new Set();
+
+      rows.forEach((row) => {
+        const website = row.dataset.website || "";
+        if (website) websites.add(website);
+      });
+
+      [...websites].sort().forEach((website) => {
+        const option = document.createElement("option");
+        option.value = website;
+        option.textContent = website;
+        websiteFilter.appendChild(option);
+      });
+    }
+
+    function loadRequests() {
+      list.innerHTML = "";
+
+      let savedRows = [];
+      try {
+        const saved = localStorage.getItem(STORAGE_KEY);
+        if (saved) {
+          const temporaryTable = document.createElement("tbody");
+          temporaryTable.innerHTML = saved;
+          savedRows = [...temporaryTable.rows];
+        }
+      } catch (error) {
+        console.warn("Could not read saved Saitari requests.", error);
+      }
+
+      savedRows.forEach((row) => {
+        const copy = row.cloneNode(true);
+
+        // Αφαιρεί τη στήλη με τις επιλογές, αν υπάρχει.
+        if (copy.cells.length > 5) copy.deleteCell(copy.cells.length - 1);
+
+        list.appendChild(copy);
+      });
+
+      populateWebsiteFilter(savedRows);
+      filterRequests();
+    }
+
+    function filterRequests() {
+      const query = searchInput.value.trim().toLowerCase();
+      const selectedStatus = statusFilter.value;
+      const selectedPriority = priorityFilter.value;
+      const selectedWebsite = websiteFilter.value;
+      let visible = 0;
+
+      [...list.rows].forEach((row) => {
+        const status = row.querySelector(".status")?.textContent.trim() || row.dataset.status || "";
+        const priority = row.dataset.priority || "";
+        const website = row.dataset.website || "";
+        const searchableText = row.textContent.toLowerCase();
+
+        const matches =
+          searchableText.includes(query) &&
+          (!selectedStatus || status === selectedStatus) &&
+          (!selectedPriority || priority === selectedPriority) &&
+          (!selectedWebsite || website === selectedWebsite);
+
+        row.hidden = !matches;
+        if (matches) visible++;
+      });
+
+      resultsCount.textContent = `${visible} ${visible === 1 ? "αίτημα" : "αιτήματα"}`;
+      emptyState.hidden = visible !== 0;
+    }
+
+    searchInput.addEventListener("input", () => {
+      topSearch.value = searchInput.value;
+      filterRequests();
+    });
+
+    topSearch.addEventListener("input", () => {
+      searchInput.value = topSearch.value;
+      filterRequests();
+    });
+
+    statusFilter.addEventListener("change", filterRequests);
+    priorityFilter.addEventListener("change", filterRequests);
+    websiteFilter.addEventListener("change", filterRequests);
+
+    loadRequests();
+  </script>
+</body>
+</html>
