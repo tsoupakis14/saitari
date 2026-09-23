@@ -1257,15 +1257,6 @@ document.getElementById("commentForm").addEventListener("submit", (event) => {
   document.getElementById("commentImagePreview").innerHTML = "";
 });
 
-  activeRequestRow.dataset.comments = JSON.stringify(comments);
-
-  saveRequests();
-  renderComments();
-  input.value = "";
-  selectedCommentImage = null;
-document.getElementById("commentImage").value = "";
-document.getElementById("commentImagePreview").innerHTML = "";
-});
     let selectedCommentImage = null;
 
 document.getElementById("commentImage").addEventListener("change", async (event) => {
