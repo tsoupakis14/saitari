@@ -688,6 +688,37 @@
   min-width: 0;
   flex: 1;
 }
+    .comment-image-button {
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  border: 1px solid #e3e8f2;
+  border-radius: 9px;
+  color: #635bff;
+  cursor: pointer;
+}
+
+.comment-image-button svg {
+  width: 18px;
+  height: 18px;
+}
+
+.comment-image-preview {
+  margin-top: 10px;
+}
+
+.comment-image-preview img,
+.comment-item-image {
+  width: 92px;
+  height: 72px;
+  display: block;
+  margin-top: 9px;
+  border-radius: 8px;
+  object-fit: cover;
+  cursor: zoom-in;
+}
   </style>
 </head>
 
@@ -717,7 +748,7 @@
         <div class="profile">
           <span class="avatar">NT</span>
           <div>
-            <strong>Nikos</strong>
+            <strong>Tasos</strong>
             <small>Designer</small>
           </div>
         </div>
@@ -733,7 +764,7 @@
 
         <div class="top-actions">
           <button class="icon-button" aria-label="Ειδοποιήσεις"><i data-lucide="bell"></i></button>
-          <div class="account">Nikos <i data-lucide="chevron-down"></i></div>
+          <div class="account">Tasos <i data-lucide="chevron-down"></i></div>
         </div>
       </header>
 
@@ -870,13 +901,21 @@
   <div class="comments-list" id="commentsList"></div>
 
   <form class="comment-composer" id="commentForm">
-    <input
-      id="commentInput"
-      required
-      placeholder="Γράψε ένα μήνυμα..."
-    />
-    <button type="submit" class="primary-button">Αποστολή</button>
-  </form>
+  <label class="comment-image-button" for="commentImage" title="Επισύναψη εικόνας">
+    <i data-lucide="image-plus"></i>
+  </label>
+
+  <input id="commentImage" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+
+  <input
+    id="commentInput"
+    placeholder="Γράψε ένα μήνυμα..."
+  />
+
+  <button type="submit" class="primary-button">Αποστολή</button>
+</form>
+
+<div class="comment-image-preview" id="commentImagePreview"></div>
 </div>
 </aside>
 
@@ -1175,6 +1214,15 @@ function renderComments() {
     date.textContent = comment.date;
 
     item.append(author, message, date);
+    if (comment.image) {
+  const image = document.createElement("img");
+  image.src = comment.image;
+  image.alt = "Επισυναπτόμενη εικόνα σχολίου";
+  image.className = "comment-item-image";
+
+  image.addEventListener("click", () => openImage(comment.image));
+  item.appendChild(image);
+}
     commentsList.appendChild(item);
   });
 }
@@ -1184,20 +1232,38 @@ document.getElementById("commentForm").addEventListener("submit", (event) => {
 
   if (!activeRequestRow) return;
 
+  if (!input.value.trim() && !selectedCommentImage) return;
+
   const input = document.getElementById("commentInput");
   const comments = JSON.parse(activeRequestRow.dataset.comments || "[]");
 
   comments.push({
-    author: "Nikos",
-    text: input.value.trim(),
-    date: new Date().toLocaleString("el-GR")
-  });
+  author: "Tasos",
+  text: input.value.trim(),
+  image: selectedCommentImage,
+  date: new Date().toLocaleString("el-GR")
+});
 
   activeRequestRow.dataset.comments = JSON.stringify(comments);
 
   saveRequests();
   renderComments();
   input.value = "";
+  selectedCommentImage = null;
+document.getElementById("commentImage").value = "";
+document.getElementById("commentImagePreview").innerHTML = "";
+});
+    let selectedCommentImage = null;
+
+document.getElementById("commentImage").addEventListener("change", async (event) => {
+  const image = event.target.files[0];
+
+  if (!image) return;
+
+  selectedCommentImage = await imageToDataUrl(image);
+
+  document.getElementById("commentImagePreview").innerHTML =
+    `<img src="${selectedCommentImage}" alt="Προεπισκόπηση εικόνας">`;
 });
   </script>
 </body>
