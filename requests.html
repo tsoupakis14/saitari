@@ -1,94 +1,43 @@
 <!doctype html>
 <html lang="el">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Όλα τα αιτήματα — Saitari</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
-  <style>
-    :root{--ink:#0b1020;--indigo:#635bff;--bg:#f7f8fc;--line:#e3e8f2;--text:#151c32;--muted:#75809a}
-    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,sans-serif}
-    main{max-width:1200px;margin:auto;padding:55px 25px}a{color:var(--indigo);text-decoration:none;font-weight:700}
-    h1{font:700 clamp(2rem,4vw,3rem)/1 "Space Grotesk";letter-spacing:-.06em;margin:25px 0 8px}
-    p{color:var(--muted)}.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin:34px 0 18px}
-    input,select{min-height:44px;border:1px solid var(--line);border-radius:9px;background:white;padding:0 13px;color:var(--text)}
-    input{flex:1;min-width:220px}.count{font-size:.84rem;color:var(--muted);margin:15px 0}
-    .panel{overflow:auto;border:1px solid var(--line);border-radius:14px;background:white}
-    table{width:100%;min-width:700px;border-collapse:collapse}th,td{text-align:left;padding:18px 20px;border-bottom:1px solid var(--line);font-size:.88rem}
-    th{color:var(--muted);font-size:.7rem;text-transform:uppercase;letter-spacing:.08em}tr:last-child td{border:0}tbody tr{cursor:pointer}tbody tr:hover{background:#fafbff}
-    .status{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;font-size:.8rem;font-weight:700}.status:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
-    .status-new{color:#5d55eb;background:#eeedff}.status-progress{color:#2878ed;background:#eaf3ff}.status-review{color:#bc7300;background:#fff5e2}.status-done{color:#009f82;background:#e3fff8}
-    .empty{padding:55px 20px;text-align:center;color:var(--muted)}
-  </style>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Αιτήματα — Saitari</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@latest"></script>
+<style>
+:root{--ink:#0b1020;--indigo:#635bff;--canvas:#f7f8fc;--surface:#fff;--border:#e3e8f2;--text:#151c32;--muted:#75809a}
+*{box-sizing:border-box}body{margin:0;background:var(--canvas);color:var(--text);font-family:Inter,sans-serif}.app{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{height:100vh;position:sticky;top:0;display:flex;flex-direction:column;padding:30px 14px 20px;background:var(--ink);color:#bdc8e6}.brand{display:flex;align-items:center;gap:11px;margin:0 14px 42px;color:#fff;font:700 1.55rem "Space Grotesk";letter-spacing:-.06em}.mark{width:33px;height:33px;display:grid;place-items:center;border-radius:10px;background:#635bff;font-size:.8rem}.label{margin:0 14px 9px;color:#7280a4;font-size:.68rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase}.nav{display:flex;align-items:center;gap:12px;min-height:45px;padding:0 14px;border-left:3px solid transparent;color:#bdc8e6;text-decoration:none;font-size:.89rem}.nav:hover{color:#fff}.nav.active{border-left-color:var(--indigo);color:#fff}.nav svg{width:18px}.footer{margin-top:auto;padding:18px 12px 0;border-top:1px solid #ffffff17;color:#fff;font-size:.83rem}.topbar{height:95px;display:flex;align-items:center;justify-content:space-between;padding:0 46px;border-bottom:1px solid var(--border);background:#ffffffbb}.topbar input{width:min(390px,40vw);border:0;border-radius:10px;padding:13px 15px;background:#f2f5fb;font:inherit}.account{font-weight:600}main{max-width:1320px;margin:auto;padding:56px 46px 70px}h1{margin:0;font:700 clamp(2rem,4vw,3.3rem)/1 "Space Grotesk";letter-spacing:-.06em}.intro{color:var(--muted)}.toolbar{display:flex;gap:12px;flex-wrap:wrap;margin:34px 0 18px}.toolbar input,.toolbar select{min-height:44px;padding:0 13px;border:1px solid var(--border);border-radius:9px;background:#fff;color:var(--text);font:inherit}.toolbar input{min-width:240px;flex:1}.count{color:var(--muted);font-size:.84rem}.panel{overflow:auto;border:1px solid var(--border);border-radius:15px;background:#fff}table{width:100%;min-width:720px;border-collapse:collapse}th,td{padding:19px 25px;border-bottom:1px solid var(--border);text-align:left;font-size:.88rem}th{color:var(--muted);font-size:.7rem;letter-spacing:.08em;text-transform:uppercase}tbody tr{cursor:pointer}tbody tr:hover{background:#fafbff}.status{display:inline-flex;align-items:center;gap:7px;padding:9px 14px;border-radius:999px;font-size:.8rem;font-weight:700}.status:before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}.status-new{color:#5d55eb;background:#eeedff}.status-progress{color:#2878ed;background:#eaf3ff}.status-review{color:#bc7300;background:#fff5e2}.status-done{color:#009f82;background:#e3fff8}.empty{padding:55px;text-align:center;color:var(--muted)}@media(max-width:760px){.app{display:block}.sidebar{display:none}.topbar{padding:0 20px}.topbar input{width:65vw}main{padding:38px 20px}}
+</style>
 </head>
 <body>
-  <main>
-    <a href="index.html">← Επιστροφή στο dashboard</a>
-    <h1>Όλα τα αιτήματα</h1>
-    <p>Αναζήτησε και φιλτράρισε όλα τα αιτήματα του workspace.</p>
-
-    <div class="toolbar">
-      <input id="search" placeholder="Αναζήτηση τίτλου ή σελίδας…">
-      <select id="statusFilter">
-        <option value="">Όλες οι καταστάσεις</option>
-        <option>Νέο</option><option>Σε εξέλιξη</option>
-        <option>Για έγκριση</option><option>Ολοκληρώθηκε</option>
-      </select>
-    </div>
-
-    <div class="count" id="count"></div>
-    <section class="panel">
-      <table>
-        <thead><tr><th>#</th><th>Αίτημα</th><th>Σελίδα</th><th>Κατάσταση</th><th>Ημερομηνία</th></tr></thead>
-        <tbody id="list"></tbody>
-      </table>
-      <div class="empty" id="empty" hidden>Δεν βρέθηκαν αιτήματα με αυτά τα φίλτρα.</div>
-    </section>
-  </main>
-
-  <script>
-    const saved = localStorage.getItem("saitari-requests");
-    const list = document.getElementById("list");
-    const search = document.getElementById("search");
-    const statusFilter = document.getElementById("statusFilter");
-
-    if (saved) {
-      const temporaryTable = document.createElement("tbody");
-      temporaryTable.innerHTML = saved;
-
-      [...temporaryTable.rows].forEach(row => {
-        const clone = row.cloneNode(true);
-        if (clone.cells.length > 5) clone.deleteCell(5);
-        clone.addEventListener("click", () => {
-          localStorage.setItem("saitari-selected-request", clone.outerHTML);
-          window.location.href = "index.html";
-        });
-        list.appendChild(clone);
-      });
-    }
-
-    function filterRequests() {
-      const term = search.value.toLowerCase();
-      const status = statusFilter.value;
-      let visible = 0;
-
-      [...list.rows].forEach(row => {
-        const text = row.textContent.toLowerCase();
-        const rowStatus = row.querySelector(".status")?.textContent.trim();
-        const match = text.includes(term) && (!status || rowStatus === status);
-        row.hidden = !match;
-        if (match) visible++;
-      });
-
-      document.getElementById("count").textContent = `${visible} αιτήματα`;
-      document.getElementById("empty").hidden = visible !== 0;
-    }
-
-    search.addEventListener("input", filterRequests);
-    statusFilter.addEventListener("change", filterRequests);
-    filterRequests();
-  </script>
-</body>
-</html>
+<div class="app">
+<aside class="sidebar">
+<div class="brand"><span class="mark">S</span>Saitari</div>
+<p class="label">Workspace</p>
+<a class="nav" href="index.html"><i data-lucide="layout-dashboard"></i>Dashboard</a>
+<a class="nav active" href="requests.html"><i data-lucide="file-text"></i>Αιτήματα</a>
+<a class="nav" href="#"><i data-lucide="monitor"></i>Websites</a>
+<a class="nav" href="#"><i data-lucide="folder"></i>Αρχεία</a>
+<a class="nav" href="#"><i data-lucide="message-square"></i>Μηνύματα</a>
+<p class="label" style="margin-top:28px">Ρυθμίσεις</p>
+<a class="nav" href="#"><i data-lucide="settings"></i>Ρυθμίσεις</a>
+<div class="footer">Tasos<br><span style="color:#8090b5">Designer</span></div>
+</aside>
+<div>
+<header class="topbar"><input placeholder="Αναζήτηση αιτημάτων…"><span class="account">Tasos⌄</span></header>
+<main>
+<h1>Όλα τα αιτήματα</h1><p class="intro">Αναζήτησε και διαχειρίσου όλα τα αιτήματα του workspace.</p>
+<div class="toolbar"><input id="search" placeholder="Αναζήτηση τίτλου ή σελίδας…"><select id="statusFilter"><option value="">Όλες οι καταστάσεις</option><option>Νέο</option><option>Σε εξέλιξη</option><option>Για έγκριση</option><option>Ολοκληρώθηκε</option></select></div>
+<p class="count" id="count"></p>
+<section class="panel"><table><thead><tr><th>#</th><th>Αίτημα</th><th>Σελίδα</th><th>Κατάσταση</th><th>Υποβλήθηκε</th></tr></thead><tbody id="list"></tbody></table><div class="empty" id="empty" hidden>Δεν βρέθηκαν αιτήματα.</div></section>
+</main></div></div>
+<script>
+lucide.createIcons();
+const saved=localStorage.getItem("saitari-requests"),list=document.getElementById("list"),search=document.getElementById("search"),filter=document.getElementById("statusFilter");
+if(saved){const temp=document.createElement("tbody");temp.innerHTML=saved;[...temp.rows].forEach(row=>{const copy=row.cloneNode(true);if(copy.cells.length>5)copy.deleteCell(5);copy.onclick=()=>{localStorage.setItem("saitari-selected-request",copy.outerHTML);location.href="index.html"};list.appendChild(copy)})}
+function apply(){let n=0;[...list.rows].forEach(row=>{const ok=row.textContent.toLowerCase().includes(search.value.toLowerCase())&&(!filter.value||row.querySelector(".status")?.textContent.trim()===filter.value);row.hidden=!ok;if(ok)n++});count.textContent=`${n} αιτήματα`;empty.hidden=n!==0}
+search.oninput=apply;filter.onchange=apply;apply();
+</script>
+</body></html>
