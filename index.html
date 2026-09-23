@@ -351,7 +351,13 @@
     tbody tr:hover { background: #fafbff; }
 
     .request-number { color: #8190ae; font-size: .8rem; }
-    .request-title { color: var(--text); font-weight: 650; }
+    .request-title {
+      color: var(--text);
+      font-family: "Space Grotesk", sans-serif;
+      font-size: .96rem;
+      font-weight: 700;
+      line-height: 1.35;
+    }
 
     .status {
       display: inline-flex;
@@ -964,12 +970,18 @@
   </div>
 <div class="field">
   <label for="website">Website / Project</label>
-  <input
-    id="website"
-    type="text"
-    required
-    placeholder="π.χ. Aegean Villas"
-  />
+  <select id="website" required>
+    <option value="" disabled selected>Επίλεξε website / project</option>
+    <option>Saitari</option>
+    <option>Kritivela</option>
+    <option>Calendrai</option>
+    <option>Portfolio</option>
+    <option>Run</option>
+    <option>Jane</option>
+    <option>Run!</option>
+    <option>Football Quiz</option>
+    <option>Fun Quiz</option>
+  </select>
 </div>
   <div class="field">
     <label for="requestImages">Επισύναψη εικόνων</label>
@@ -1339,6 +1351,16 @@ document.getElementById("drawerStatus").addEventListener("change", (event) => {
 
   updateRequestStatus(activeRequestRow, event.target.value);
 });
+
+const selectedRequestTitle = localStorage.getItem("saitari-selected-request");
+if (selectedRequestTitle) {
+  const selectedRow = [...rows.rows].find((row) =>
+    row.dataset.title === selectedRequestTitle ||
+    row.querySelector(".request-title")?.textContent.trim().startsWith(selectedRequestTitle)
+  );
+  localStorage.removeItem("saitari-selected-request");
+  if (selectedRow) openDrawer(selectedRow);
+}
   </script>
 </body>
 </html>

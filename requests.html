@@ -395,7 +395,7 @@
           <i data-lucide="file-text"></i>
           <span>Αιτήματα</span>
         </a>
-        <a class="nav-item" href="#">
+        <a class="nav-item" href="websites.html">
           <i data-lucide="monitor"></i>
           <span>Websites</span>
         </a>
@@ -512,6 +512,8 @@
       return row.cells[index]?.textContent.trim() || "";
     }
 
+    const DEMO_WEBSITES = ["Saitari", "Kritivela", "Calendrai", "Portfolio", "Run", "Jane", "Run!", "Football Quiz", "Fun Quiz"];
+
     function populateWebsiteFilter(rows) {
       const websites = new Set();
 
@@ -548,6 +550,12 @@
 
         // Αφαιρεί τη στήλη με τις επιλογές, αν υπάρχει.
         if (copy.cells.length > 5) copy.deleteCell(copy.cells.length - 1);
+
+        copy.addEventListener("click", () => {
+          const title = copy.dataset.title || copy.querySelector(".request-title")?.textContent.trim() || "";
+          localStorage.setItem("saitari-selected-request", title);
+          window.location.href = "index.html";
+        });
 
         list.appendChild(copy);
       });
@@ -598,6 +606,13 @@
     websiteFilter.addEventListener("change", filterRequests);
 
     loadRequests();
+
+    const requestedWebsite = new URLSearchParams(window.location.search).get("website");
+    if (requestedWebsite) {
+      websiteFilter.value = requestedWebsite;
+      filterRequests();
+    }
   </script>
 </body>
 </html>
+
