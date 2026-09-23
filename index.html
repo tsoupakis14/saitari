@@ -1232,16 +1232,29 @@ document.getElementById("commentForm").addEventListener("submit", (event) => {
 
   if (!activeRequestRow) return;
 
-  if (!input.value.trim() && !selectedCommentImage) return;
-
   const input = document.getElementById("commentInput");
+  const text = input.value.trim();
+
+  if (!text && !selectedCommentImage) return;
+
   const comments = JSON.parse(activeRequestRow.dataset.comments || "[]");
 
   comments.push({
-  author: "Tasos",
-  text: input.value.trim(),
-  image: selectedCommentImage,
-  date: new Date().toLocaleString("el-GR")
+    author: "Nikos",
+    text: text,
+    image: selectedCommentImage,
+    date: new Date().toLocaleString("el-GR")
+  });
+
+  activeRequestRow.dataset.comments = JSON.stringify(comments);
+
+  saveRequests();
+  renderComments();
+
+  input.value = "";
+  selectedCommentImage = null;
+  document.getElementById("commentImage").value = "";
+  document.getElementById("commentImagePreview").innerHTML = "";
 });
 
   activeRequestRow.dataset.comments = JSON.stringify(comments);
