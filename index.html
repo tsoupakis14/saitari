@@ -954,7 +954,15 @@
     <label for="title">Τίτλος αιτήματος</label>
     <input id="title" required placeholder="π.χ. Αλλαγή κειμένου στην αρχική" />
   </div>
-
+<div class="field">
+  <label for="website">Website / Project</label>
+  <input
+    id="website"
+    type="text"
+    required
+    placeholder="π.χ. Aegean Villas"
+  />
+</div>
   <div class="field">
     <label for="requestImages">Επισύναψη εικόνων</label>
 
@@ -1052,7 +1060,7 @@
 
       const title = document.getElementById("title").value.trim();
       const area = document.getElementById("area").value;
-
+      const website = document.getElementById("website").value.trim();
       const priority = document.getElementById("priority").value;
       const description = document.getElementById("description").value;
       const images = await Promise.all(
@@ -1072,6 +1080,7 @@
       row.querySelector(".request-title").textContent = title;
       row.children[2].textContent = area;
       row.dataset.area = area;
+      row.dataset.website = website;
       row.dataset.priority = priority;
       row.dataset.description = description;
       row.dataset.images = JSON.stringify(images);
