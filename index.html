@@ -722,6 +722,7 @@
   object-fit: cover;
   cursor: zoom-in;
 }
+    .request-website-label {
   </style>
 </head>
 
@@ -1077,7 +1078,13 @@
         <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
       `;
 
+      row.dataset.title = title;
       row.querySelector(".request-title").textContent = title;
+
+      const websiteLabel = document.createElement("span");
+      websiteLabel.className = "request-website-label";
+      websiteLabel.textContent = website;
+      row.querySelector(".request-title").appendChild(websiteLabel);
       row.children[2].textContent = area;
       row.dataset.area = area;
       row.dataset.website = website;
@@ -1147,7 +1154,7 @@ document.getElementById("drawerStatus").value =
   row.querySelector(".status").textContent.trim();
   renderComments();
   document.getElementById("drawerTitle").textContent =
-    row.querySelector(".request-title").textContent;
+  row.dataset.title || row.querySelector(".request-title").textContent;
 
   document.getElementById("drawerArea").textContent =
     row.dataset.area || row.children[2].textContent;
