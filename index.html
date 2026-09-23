@@ -791,6 +791,8 @@
     function closeModal() {
       modal.classList.remove("open");
       form.reset();
+      selectedImages = [];
+      requestImagePreviews.innerHTML = "";
     }
 
     openButton.addEventListener("click", openModal);
