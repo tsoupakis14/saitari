@@ -646,6 +646,48 @@
   max-height: 88vh;
   border-radius: 10px;
 }
+    .comments-list {
+  display: grid;
+  gap: 13px;
+  margin-bottom: 15px;
+}
+
+.comment-item {
+  padding: 13px 14px;
+  border: 1px solid #e3e8f2;
+  border-radius: 10px;
+  background: #fafbff;
+}
+
+.comment-item strong {
+  display: block;
+  color: #25304a;
+  font-size: .82rem;
+}
+
+.comment-item p {
+  margin: 6px 0 0;
+  color: #5d6982;
+  font-size: .87rem;
+  line-height: 1.55;
+}
+
+.comment-item small {
+  display: block;
+  margin-top: 8px;
+  color: #8a94aa;
+  font-size: .72rem;
+}
+
+.comment-composer {
+  display: flex;
+  gap: 9px;
+}
+
+.comment-composer input {
+  min-width: 0;
+  flex: 1;
+}
   </style>
 </head>
 
@@ -823,11 +865,19 @@
   </div>
 
   <div class="field">
-    <label>Σχόλια</label>
-    <div class="upload-zone" style="min-height:80px; padding:14px">
-      <span><strong>Η συνομιλία θα μπει εδώ</strong><small>Μήνυμα και προαιρετική επισύναψη εικόνας</small></span>
-    </div>
-  </div>
+  <label>Σχόλια</label>
+
+  <div class="comments-list" id="commentsList"></div>
+
+  <form class="comment-composer" id="commentForm">
+    <input
+      id="commentInput"
+      required
+      placeholder="Γράψε ένα μήνυμα..."
+    />
+    <button type="submit" class="primary-button">Αποστολή</button>
+  </form>
+</div>
 </aside>
 
 <div class="image-lightbox" id="imageLightbox">
@@ -1021,6 +1071,8 @@ const drawerBackdrop = document.getElementById("drawerBackdrop");
 const lightbox = document.getElementById("imageLightbox");
 
 function openDrawer(row) {
+  activeRequestRow = row;
+  renderComments();
   document.getElementById("drawerTitle").textContent =
     row.querySelector(".request-title").textContent;
 
@@ -1094,6 +1146,59 @@ function loadRequests() {
 }
 
 loadRequests();
+
+    let activeRequestRow = null;
+
+function renderComments() {
+  const commentsList = document.getElementById("commentsList");
+  const comments = JSON.parse(activeRequestRow.dataset.comments || "[]");
+
+  commentsList.innerHTML = "";
+
+  if (comments.length === 0) {
+    commentsList.innerHTML =
+      '<p class="intro">Δεν υπάρχουν σχόλια ακόμη.</p>';
+    return;
+  }
+
+  comments.forEach((comment) => {
+    const item = document.createElement("article");
+    item.className = "comment-item";
+
+    const author = document.createElement("strong");
+    author.textContent = comment.author;
+
+    const message = document.createElement("p");
+    message.textContent = comment.text;
+
+    const date = document.createElement("small");
+    date.textContent = comment.date;
+
+    item.append(author, message, date);
+    commentsList.appendChild(item);
+  });
+}
+
+document.getElementById("commentForm").addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  if (!activeRequestRow) return;
+
+  const input = document.getElementById("commentInput");
+  const comments = JSON.parse(activeRequestRow.dataset.comments || "[]");
+
+  comments.push({
+    author: "Nikos",
+    text: input.value.trim(),
+    date: new Date().toLocaleString("el-GR")
+  });
+
+  activeRequestRow.dataset.comments = JSON.stringify(comments);
+
+  saveRequests();
+  renderComments();
+  input.value = "";
+});
   </script>
 </body>
 </html>
