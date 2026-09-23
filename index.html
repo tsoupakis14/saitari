@@ -720,58 +720,58 @@
       </div>
 
       <form id="requestForm">
-        <div class="field">
-          <label for="title">Τίτλος αιτήματος</label>
-          <input id="title" required placeholder="π.χ. Αλλαγή κειμένου στην αρχική" />
-        </div>
+  <div class="field">
+    <label for="title">Τίτλος αιτήματος</label>
+    <input id="title" required placeholder="π.χ. Αλλαγή κειμένου στην αρχική" />
+  </div>
 
+  <div class="field">
+    <label for="requestImages">Επισύναψη εικόνων</label>
+
+    <label class="upload-zone" for="requestImages">
+      <i data-lucide="image-plus"></i>
+      <span>
+        <strong>Πρόσθεσε screenshots ή εικόνες</strong>
+        <small>Έως 5 εικόνες · PNG, JPG ή WEBP</small>
+      </span>
+    </label>
+
+    <input id="requestImages" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
+    <div class="image-previews" id="requestImagePreviews"></div>
+  </div>
+
+  <div class="form-grid">
+    <div class="field">
+      <label for="area">Σελίδα / περιοχή</label>
+      <select id="area">
+        <option>Αρχική</option>
+        <option>Σχετικά με εμάς</option>
+        <option>Projects</option>
+        <option>Επικοινωνία</option>
+      </select>
+    </div>
+
+    <div class="field">
+      <label for="priority">Προτεραιότητα</label>
       <select id="priority">
-              <option>Κανονική</option>
-              <option>Υψηλή</option>
-              <option>Χαμηλή</option>
-            </select>
-        
-        <div class="form-grid">
-          <div class="field">
-            <label for="area">Σελίδα / περιοχή</label>
-            <select id="area">
-              <option>Αρχική</option>
-              <option>Σχετικά με εμάς</option>
-              <option>Projects</option>
-              <option>Επικοινωνία</option>
-            </select>
-          </div>
+        <option>Κανονική</option>
+        <option>Υψηλή</option>
+        <option>Χαμηλή</option>
+      </select>
+    </div>
+  </div>
 
-          <div class="field">
-            <label for="priority">Προτεραιότητα</label>
-            <div class="field">
-  <label for="requestImages">Επισύναψη εικόνων</label>
+  <div class="field">
+    <label for="description">Περιγραφή</label>
+    <textarea id="description" required placeholder="Περιέγραψε την αλλαγή που χρειάζεσαι."></textarea>
+  </div>
 
-  <label class="upload-zone" for="requestImages">
-    <i data-lucide="image-plus"></i>
-    <span>
-      <strong>Πρόσθεσε screenshots ή εικόνες</strong>
-      <small>Έως 5 εικόνες · PNG, JPG ή WEBP</small>
-    </span>
-  </label>
-
-  <input id="requestImages" type="file" accept="image/png,image/jpeg,image/webp" multiple hidden />
-  <div class="image-previews" id="requestImagePreviews"></div>
-</div>
-            
-          </div>
-        </div>
-
-        <div class="field">
-          <label for="description">Περιγραφή</label>
-          <textarea id="description" required placeholder="Περιέγραψε την αλλαγή που χρειάζεσαι."></textarea>
-        </div>
-
-        <div class="form-actions">
-          <button type="button" class="secondary-button" id="cancelModal">Ακύρωση</button>
-          <button type="submit" class="primary-button">Δημιουργία</button>
-        </div>
-      </form>
+  <div class="form-actions">
+    <button type="button" class="secondary-button" id="cancelModal">Ακύρωση</button>
+    <button type="submit" class="primary-button">Δημιουργία</button>
+  </div>
+</form>
+      
     </section>
   </div>
 
