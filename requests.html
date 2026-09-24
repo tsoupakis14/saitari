@@ -291,7 +291,7 @@
 
     table {
       width: 100%;
-      min-width: 760px;
+      min-width: 680px;
       border-collapse: collapse;
     }
 
@@ -487,7 +487,6 @@
                 <tr>
                   <th>Αίτημα</th>
                   <th>Πελάτης</th>
-                  <th>Σελίδα</th>
                   <th>Κατάσταση</th>
                   <th>Υποβλήθηκε</th>
                 </tr>
@@ -520,10 +519,13 @@
 
     function normalizeRequestRow(row) {
       if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
-      const statusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
-      if (statusIndex === 2) row.insertCell(1).textContent = row.dataset.website || row.querySelector(".request-website-label")?.textContent.trim() || "—";
-      row.querySelector(".request-website-label")?.remove();
       if (row.querySelector(".ellipsis")) row.deleteCell(row.cells.length - 1);
+      const statusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
+      const website = row.dataset.website || row.querySelector(".request-website-label")?.textContent.trim() || "—";
+      if (statusIndex === 2 && row.cells[1]?.textContent.trim() !== website) row.insertCell(1).textContent = website;
+      row.querySelector(".request-website-label")?.remove();
+      const normalizedStatusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
+      if (normalizedStatusIndex === 3 && row.cells.length >= 5) row.deleteCell(2);
       return row;
     }
 
