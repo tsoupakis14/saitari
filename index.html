@@ -166,17 +166,18 @@
     }
 
     .search {
-  width: min(390px, 40vw);
-  height: 46px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 0 13px;
-  border: 1px solid var(--border);
-  border-radius: 10px;
-  background: #fff;
-  color: var(--muted);
-}
+      width: min(400px, 44vw);
+      height: 42px;
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      padding: 0 13px;
+      border: 1px solid #dce3ef;
+      border-radius: 9px;
+      background: #fff;
+      color: var(--muted);
+    }
+    .search:focus-within { border-color: #a9a5ff; box-shadow: 0 0 0 3px #635bff12; }
 
     .search svg { width: 18px; height: 18px; }
     .search input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--text); font-size: .88rem; }
@@ -364,9 +365,10 @@
       align-items: center;
       min-height: 34px;
       padding: 6px 12px;
-      border: 1px solid currentColor;
+      border: 1px solid #dfe5ef;
       border-left-width: 4px;
-      border-radius: 7px;
+      border-left-color: currentColor;
+      border-radius: 6px;
       font-size: .78rem;
       font-weight: 650;
       white-space: nowrap;
@@ -483,7 +485,7 @@
     @media (max-width: 760px) {
       .app { display: block; }
       .sidebar { display: none; }
-      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(4,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
+      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(5,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
       .mobile-nav a { min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem; }
       .mobile-nav a.active { color:#fff;border-bottom:2px solid var(--indigo); }
       .mobile-nav svg { width:19px;height:19px; }
@@ -757,12 +759,10 @@
       <div class="nav-group">
         <p class="nav-label">Workspace</p>
         <button class="nav-item active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
-        <a class="nav-item" href="requests.html">
-  <i data-lucide="file-text"></i>
-  <span>Αιτήματα</span>
-</a>
-        <a class="nav-item" href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
-        <a class="nav-item" href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
+        <a class="nav-item" href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a>
+        <a class="nav-item" href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
+      <a class="nav-item" href="archive.html"><i data-lucide="archive"></i><span>Αρχείο</span></a>
+      <a class="nav-item" href="history.html"><i data-lucide="archive-restore"></i><span>Ιστορικό αρχείου</span></a>
       </div>
 
       <div class="sidebar-footer">
@@ -777,16 +777,17 @@
     </aside>
     <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
       <a class="active" href="index.html" aria-current="page"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+      <a href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a>
       <a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
-      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
+      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχείο</span></a>
+      <a href="history.html"><i data-lucide="archive-restore"></i><span>Ιστορικό</span></a>
     </nav>
 
     <div class="content">
       <header class="topbar">
         <label class="search">
           <i data-lucide="search"></i>
-          <input type="search" placeholder="Αναζήτηση αιτημάτων..." />
+          <input id="topSearch" type="search" placeholder="Αναζήτηση αιτημάτων..." aria-label="Αναζήτηση αιτημάτων" />
         </label>
 
         <div class="top-actions">
@@ -834,40 +835,40 @@
               <thead>
                 <tr>
                   <th>Αίτημα</th>
+                  <th>Πελάτης</th>
                   <th>Σελίδα</th>
                   <th>Κατάσταση</th>
                   <th>Υποβλήθηκε</th>
-                  <th></th>
                 </tr>
               </thead>
               <tbody id="requestRows">
-                <tr>
+                <tr data-website="Saitari" data-area="Αρχική" data-title="Αλλαγή τίτλου αρχικής σελίδας">
                   <td class="request-title">Αλλαγή τίτλου αρχικής σελίδας</td>
+                  <td>Saitari</td>
                   <td>Αρχική</td>
                   <td><span class="status status-new">Νέο</span></td>
                   <td>24 Απρ. 2026</td>
-                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
-                <tr>
+                <tr data-website="Kritivela" data-area="Σχετικά με εμάς" data-title="Αλλαγή φωτογραφίας ομάδας">
                   <td class="request-title">Αλλαγή φωτογραφίας ομάδας</td>
+                  <td>Kritivela</td>
                   <td>Σχετικά με εμάς</td>
                   <td><span class="status status-progress">Σε εξέλιξη</span></td>
                   <td>23 Απρ. 2026</td>
-                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
-                <tr>
+                <tr data-website="Portfolio" data-area="Projects" data-title="Νέο case study">
                   <td class="request-title">Νέο case study</td>
+                  <td>Portfolio</td>
                   <td>Projects</td>
                   <td><span class="status status-review">Για έγκριση</span></td>
                   <td>22 Απρ. 2026</td>
-                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
-                <tr data-completed-at="2026-09-01T12:00:00.000Z">
+                <tr data-website="Calendrai" data-area="Επικοινωνία" data-title="Ενημέρωση φόρμας επικοινωνίας" data-completed-at="2026-09-23T12:00:00.000Z">
                   <td class="request-title">Ενημέρωση φόρμας επικοινωνίας</td>
+                  <td>Calendrai</td>
                   <td>Επικοινωνία</td>
                   <td><span class="status status-done">Ολοκληρώθηκε</span></td>
                   <td>20 Απρ. 2026</td>
-                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
               </tbody>
             </table>
@@ -1117,19 +1118,16 @@ function imageToDataUrl(file) {
       row.innerHTML = `
         <td class="request-title"></td>
         <td></td>
+        <td></td>
         <td><span class="status status-new">Νέο</span></td>
         <td>Μόλις τώρα</td>
-        <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
       `;
 
       row.dataset.title = title;
       row.querySelector(".request-title").textContent = title;
 
-      const websiteLabel = document.createElement("span");
-      websiteLabel.className = "request-website-label";
-      websiteLabel.textContent = website;
-      row.querySelector(".request-title").appendChild(websiteLabel);
-      row.children[1].textContent = area;
+      row.children[1].textContent = website;
+      row.children[2].textContent = area;
       row.dataset.area = area;
       row.dataset.website = website;
       row.dataset.priority = priority;
@@ -1207,7 +1205,7 @@ document.getElementById("drawerStatus").value =
   row.dataset.title || row.querySelector(".request-title").textContent;
 
   document.getElementById("drawerArea").textContent =
-    row.dataset.area || row.children[1].textContent;
+    row.dataset.area || row.children[2].textContent;
 
   const drawerImages = document.getElementById("drawerImages");
 const images = JSON.parse(row.dataset.images || "[]");
@@ -1267,14 +1265,16 @@ lucide.createIcons();
 
     const REQUESTS_STORAGE_KEY = "saitari-requests";
     const ARCHIVE_STORAGE_KEY = "saitari-archived-requests";
-    const RETENTION_MS = 3 * 24 * 60 * 60 * 1000;
+    const HISTORY_STORAGE_KEY = "saitari-archive-history";
+    const ARCHIVE_RETENTION_MS = 15 * 24 * 60 * 60 * 1000;
 
 function setDashboardCounts() {
   const counts = { "Νέο": 0, "Σε εξέλιξη": 0, "Για έγκριση": 0 };
+  const query = (document.getElementById("topSearch")?.value || "").trim().toLocaleLowerCase("el");
   [...rows.rows].forEach(row => {
     const status = row.querySelector(".status")?.textContent.trim() || "";
     row.dataset.status = status;
-    row.hidden = status === "Ολοκληρώθηκε";
+    row.hidden = status === "Ολοκληρώθηκε" || !row.textContent.toLocaleLowerCase("el").includes(query);
     if (status in counts) counts[status]++;
   });
   document.getElementById("newCount").textContent = counts["Νέο"];
@@ -1282,27 +1282,51 @@ function setDashboardCounts() {
   document.getElementById("reviewCount").textContent = counts["Για έγκριση"];
 }
 
+function normalizeRequestRow(row) {
+  if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
+  const statusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
+  if (statusIndex === 2) {
+    const client = row.dataset.website || row.querySelector(".request-website-label")?.textContent.trim() || "—";
+    row.insertCell(1).textContent = client;
+  }
+  row.querySelector(".request-website-label")?.remove();
+  if (row.querySelector(".ellipsis")) row.deleteCell(row.cells.length - 1);
+  return row;
+}
+
 function moveExpiredRows(markup) {
   const source = document.createElement("tbody");
   source.innerHTML = markup || "";
   const archived = document.createElement("tbody");
   archived.innerHTML = localStorage.getItem(ARCHIVE_STORAGE_KEY) || "";
+  const history = document.createElement("tbody");
+  history.innerHTML = localStorage.getItem(HISTORY_STORAGE_KEY) || "";
   const now = Date.now();
   [...source.rows].forEach(row => {
+    normalizeRequestRow(row);
+    row.dataset.title = row.dataset.title || row.querySelector(".request-title")?.textContent.trim() || "";
     if (row.querySelector(".status")?.textContent.trim() !== "Ολοκληρώθηκε") return;
     let completedAt = Date.parse(row.dataset.completedAt || "");
     if (!Number.isFinite(completedAt)) {
       completedAt = now;
       row.dataset.completedAt = new Date(completedAt).toISOString();
     }
-    if (now - completedAt >= RETENTION_MS) {
-      row.dataset.archivedAt = new Date(now).toISOString();
-      row.dataset.archiveKey = row.dataset.archiveKey || row.dataset.title || row.cells[0]?.textContent.trim() || crypto.randomUUID();
-      row.hidden = false;
-      archived.appendChild(row);
-    }
+    row.dataset.archivedAt = row.dataset.archivedAt || new Date(completedAt).toISOString();
+    row.dataset.archiveKey = row.dataset.archiveKey || crypto.randomUUID();
+    row.hidden = false;
+    archived.appendChild(row);
   });
+  [...archived.rows].forEach(row => {
+    normalizeRequestRow(row);
+    const archivedAt = Date.parse(row.dataset.archivedAt || "") || now;
+    if (now - archivedAt < ARCHIVE_RETENTION_MS) return;
+    row.dataset.movedToHistoryAt = row.dataset.movedToHistoryAt || new Date(now).toISOString();
+    if (![...history.rows].some(saved => saved.dataset.archiveKey === row.dataset.archiveKey)) history.appendChild(row);
+    row.remove();
+  });
+  localStorage.setItem(REQUESTS_STORAGE_KEY, source.innerHTML);
   localStorage.setItem(ARCHIVE_STORAGE_KEY, archived.innerHTML);
+  localStorage.setItem(HISTORY_STORAGE_KEY, history.innerHTML);
   return source.innerHTML;
 }
 
@@ -1336,6 +1360,7 @@ function loadRequests() {
 }
 
 loadRequests();
+document.getElementById("topSearch").addEventListener("input", setDashboardCounts);
 
     let activeRequestRow = null;
 
@@ -1458,6 +1483,12 @@ function updateRequestStatus(row, status) {
     else delete row.dataset.completedAt;
     document.getElementById("drawerStatus").value = previousStatus;
     setDashboardCounts();
+    return;
+  }
+  if (status === "Ολοκληρώθηκε") {
+    rows.innerHTML = moveExpiredRows(rows.innerHTML);
+    closeDrawer();
+    activeRequestRow = null;
   }
 }
 
