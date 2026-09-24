@@ -159,20 +159,17 @@
     }
 
     .search {
-      width: min(400px, 44vw);
-      height: 42px;
+      width: min(390px, 40vw);
       display: flex;
       align-items: center;
-      gap: 11px;
-      padding: 0 13px;
-      border: 1px solid #dce3ef;
-      border-radius: 9px;
-      background: #fff;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f2f5fb;
       color: var(--muted);
     }
 
-    .search svg { width: 17px; height: 17px; }
-    .search:focus-within { border-color: #a9a5ff; box-shadow: 0 0 0 3px #635bff12; }
+    .search svg { width: 18px; height: 18px; }
 
     .search input {
       width: 100%;
@@ -254,16 +251,6 @@
       font-size: .86rem;
     }
 
-    .filters select {
-      appearance: none;
-      -webkit-appearance: none;
-      padding-right: 42px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2326334c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      background-size: 13px;
-    }
-
     .filters input:focus,
     .filters select:focus {
       border-color: var(--indigo);
@@ -314,19 +301,27 @@
     tbody tr:hover { background: #fafbff; }
     tbody tr:last-child td { border-bottom: 0; }
 
+    .request-number { color: #8190ae; font-size: .8rem; }
     .request-title { color: var(--text); font-weight: 650; }
 
     .status {
       display: inline-flex;
       align-items: center;
-      min-height: 34px;
-      padding: 6px 12px;
-      border: 1px solid #dfe5ef;
-      border-left: 4px solid currentColor;
-      border-radius: 6px;
-      font-size: .78rem;
+      gap: 8px;
+      min-height: 38px;
+      padding: 0 16px;
+      border-radius: 999px;
+      font-size: .81rem;
       font-weight: 650;
       white-space: nowrap;
+    }
+
+    .status::before {
+      content: "";
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: currentColor;
     }
 
     .status-new { color: #5d55eb; background: #eeedff; }
@@ -365,11 +360,11 @@
     @media (max-width: 760px) {
       .app { display: block; }
       .sidebar { display: none; }
-      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(5,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
+      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
       .mobile-nav a { min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem; }
       .mobile-nav a.active { color:#fff;border-bottom:2px solid var(--indigo); }
       .mobile-nav svg { width:19px;height:19px; }
-      body { padding-bottom:94px; }
+      body { padding-bottom:82px; }
       .topbar { height: 72px; padding: 0 20px; }
       .search { display: none; }
       main { padding: 38px 20px 50px; }
@@ -403,19 +398,30 @@
           <i data-lucide="layout-dashboard"></i>
           <span>Dashboard</span>
         </a>
-        <a class="nav-item" href="websites.html">
-          <i data-lucide="users-round"></i>
-          <span>Πελάτες</span>
-        </a>
         <a class="nav-item active" href="requests.html" aria-current="page">
           <i data-lucide="file-text"></i>
           <span>Αιτήματα</span>
         </a>
-        <a class="nav-item" href="archive.html">
-          <i data-lucide="archive"></i>
-          <span>Αρχείο</span>
+        <a class="nav-item" href="websites.html">
+          <i data-lucide="monitor"></i>
+          <span>Websites</span>
         </a>
-        <a class="nav-item" href="history.html"><i data-lucide="archive-restore"></i><span>Ιστορικό αρχείου</span></a>
+        <a class="nav-item" href="#">
+          <i data-lucide="folder"></i>
+          <span>Αρχεία</span>
+        </a>
+        <a class="nav-item" href="#">
+          <i data-lucide="message-square"></i>
+          <span>Μηνύματα</span>
+        </a>
+      </div>
+
+      <div class="nav-group">
+        <p class="nav-label">Ρυθμίσεις</p>
+        <a class="nav-item" href="#">
+          <i data-lucide="settings"></i>
+          <span>Ρυθμίσεις</span>
+        </a>
       </div>
 
       <div class="sidebar-footer">
@@ -430,10 +436,8 @@
     </aside>
     <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
       <a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
-      <a href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a>
       <a class="active" href="requests.html" aria-current="page"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχείο</span></a>
-      <a href="history.html"><i data-lucide="archive-restore"></i><span>Ιστορικό</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
     </nav>
 
     <div class="content">
@@ -484,11 +488,12 @@
             <table>
               <thead>
                 <tr>
+                  <th>#</th>
                   <th>Αίτημα</th>
-                  <th>Πελάτης</th>
                   <th>Σελίδα</th>
                   <th>Κατάσταση</th>
                   <th>Υποβλήθηκε</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="requestList"></tbody>
@@ -514,50 +519,6 @@
     const websiteFilter = document.getElementById("websiteFilter");
     const resultsCount = document.getElementById("resultsCount");
     const emptyState = document.getElementById("emptyState");
-    const ARCHIVE_KEY = "saitari-archived-requests";
-    const HISTORY_KEY = "saitari-archive-history";
-    const ARCHIVE_RETENTION = 15 * 24 * 60 * 60 * 1000;
-
-    function normalizeRequestRow(row) {
-      if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
-      const statusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
-      if (statusIndex === 2) row.insertCell(1).textContent = row.dataset.website || row.querySelector(".request-website-label")?.textContent.trim() || "—";
-      row.querySelector(".request-website-label")?.remove();
-      if (row.querySelector(".ellipsis")) row.deleteCell(row.cells.length - 1);
-      return row;
-    }
-
-    function moveExpiredRequests(markup) {
-      const active = document.createElement("tbody");
-      active.innerHTML = markup || "";
-      const archive = document.createElement("tbody");
-      archive.innerHTML = localStorage.getItem(ARCHIVE_KEY) || "";
-      const history = document.createElement("tbody");
-      history.innerHTML = localStorage.getItem(HISTORY_KEY) || "";
-      const now = Date.now();
-      [...active.rows].forEach(row => {
-        normalizeRequestRow(row);
-        row.dataset.title = row.dataset.title || row.querySelector(".request-title")?.textContent.trim() || "";
-        if (row.querySelector(".status")?.textContent.trim() !== "Ολοκληρώθηκε") return;
-        if (!Date.parse(row.dataset.completedAt || "")) row.dataset.completedAt = new Date(now).toISOString();
-        row.dataset.archivedAt = row.dataset.archivedAt || new Date(Date.parse(row.dataset.completedAt)).toISOString();
-        row.dataset.archiveKey = row.dataset.archiveKey || crypto.randomUUID();
-        row.hidden = false;
-        archive.appendChild(row);
-      });
-      [...archive.rows].forEach(row => {
-        normalizeRequestRow(row);
-        const archivedAt = Date.parse(row.dataset.archivedAt || "") || now;
-        if (now - archivedAt < ARCHIVE_RETENTION) return;
-        row.dataset.movedToHistoryAt = row.dataset.movedToHistoryAt || new Date(now).toISOString();
-        if (![...history.rows].some(saved => saved.dataset.archiveKey === row.dataset.archiveKey)) history.appendChild(row);
-        row.remove();
-      });
-      localStorage.setItem(STORAGE_KEY, active.innerHTML);
-      localStorage.setItem(ARCHIVE_KEY, archive.innerHTML);
-      localStorage.setItem(HISTORY_KEY, history.innerHTML);
-      return active.innerHTML;
-    }
 
     function getCellText(row, index) {
       return row.cells[index]?.textContent.trim() || "";
@@ -569,9 +530,6 @@
       const websites = new Set(DEMO_WEBSITES);
       try {
         JSON.parse(localStorage.getItem("saitari-projects") || "[]").forEach(project => websites.add(project.name));
-      } catch (error) {}
-      try {
-        JSON.parse(localStorage.getItem("saitari-deleted-projects") || "[]").forEach(name => websites.delete(name));
       } catch (error) {}
 
       rows.forEach((row) => {
@@ -592,7 +550,7 @@
 
       let savedRows = [];
       try {
-        const saved = moveExpiredRequests(localStorage.getItem(STORAGE_KEY));
+        const saved = localStorage.getItem(STORAGE_KEY);
         if (saved) {
           const temporaryTable = document.createElement("tbody");
           temporaryTable.innerHTML = saved;
@@ -604,12 +562,12 @@
 
       savedRows.forEach((row) => {
         const copy = row.cloneNode(true);
-        copy.hidden = false;
         if (["Run", "Jane", "Run!"].includes(copy.dataset.website)) {
           copy.dataset.website = "Run Jane Run";
         }
 
-        normalizeRequestRow(copy);
+        // Αφαιρεί τη στήλη με τις επιλογές, αν υπάρχει.
+        if (copy.cells.length > 5) copy.deleteCell(copy.cells.length - 1);
 
         copy.addEventListener("click", () => {
           const title = copy.dataset.title || copy.querySelector(".request-title")?.textContent.trim() || "";
