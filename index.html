@@ -166,18 +166,17 @@
     }
 
     .search {
-      width: min(400px, 44vw);
-      height: 42px;
-      display: flex;
-      align-items: center;
-      gap: 11px;
-      padding: 0 13px;
-      border: 1px solid #dce3ef;
-      border-radius: 9px;
-      background: #fff;
-      color: var(--muted);
-    }
-    .search:focus-within { border-color: #a9a5ff; box-shadow: 0 0 0 3px #635bff12; }
+  width: min(390px, 40vw);
+  height: 46px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 0 13px;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  background: #fff;
+  color: var(--muted);
+}
 
     .search svg { width: 18px; height: 18px; }
     .search input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--text); font-size: .88rem; }
@@ -254,24 +253,39 @@
     }
 
     .stat-card {
-      min-height: 126px;
+      min-height: 142px;
       display: flex;
       align-items: center;
-      padding: 23px 25px;
-      border: 1px solid #dfe5ef;
-      border-left: 4px solid #5d55eb;
-      border-radius: 9px;
+      gap: 16px;
+      padding: 22px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
       background: var(--surface);
-      box-shadow: none;
+      box-shadow: var(--shadow);
+      transition: transform .2s ease;
     }
 
-    .stat-card.progress { border-left-color: #2878ed; }
-    .stat-card.review { border-left-color: #bc7300; }
+    .stat-card:hover { transform: translateY(-3px); }
+
+    .stat-icon {
+      width: 50px;
+      height: 50px;
+      display: grid;
+      place-items: center;
+      flex: 0 0 auto;
+      border-radius: 12px;
+    }
+
+    .stat-icon svg { width: 23px; height: 23px; }
+    .stat-icon.new { background: var(--indigo-soft); color: var(--indigo); }
+    .stat-icon.progress { background: var(--blue-soft); color: var(--blue); }
+    .stat-icon.review { background: var(--amber-soft); color: var(--amber); }
+    .stat-icon.done { background: var(--aqua-soft); color: #00a989; }
 
     .stat-card strong {
       display: block;
       font-family: "Space Grotesk", sans-serif;
-      font-size: 2rem;
+      font-size: 1.85rem;
       letter-spacing: -.06em;
     }
 
@@ -350,10 +364,9 @@
       align-items: center;
       min-height: 34px;
       padding: 6px 12px;
-      border: 1px solid #dfe5ef;
+      border: 1px solid currentColor;
       border-left-width: 4px;
-      border-left-color: currentColor;
-      border-radius: 6px;
+      border-radius: 7px;
       font-size: .78rem;
       font-weight: 650;
       white-space: nowrap;
@@ -375,7 +388,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      z-index: 50;
+      z-index: 10;
       display: none;
       align-items: center;
       justify-content: center;
@@ -387,10 +400,6 @@
 
     .modal {
       width: min(100%, 560px);
-      max-height: calc(100vh - 36px);
-      max-height: calc(100dvh - 36px);
-      display: flex;
-      flex-direction: column;
       border-radius: 16px;
       overflow: hidden;
       background: white;
@@ -399,7 +408,6 @@
 
     .modal-head {
       display: flex;
-      flex: 0 0 auto;
       align-items: center;
       justify-content: space-between;
       padding: 23px 25px;
@@ -420,13 +428,7 @@
 
     .close-modal svg { width: 19px; height: 19px; }
 
-    #requestForm {
-      flex: 1 1 auto;
-      min-height: 0;
-      overflow-y: auto;
-      overscroll-behavior: contain;
-      padding: 25px;
-    }
+    form { padding: 25px; }
 
     label {
       display: block;
@@ -476,9 +478,6 @@
       .profile div { display: none; }
     }
 
-    body.modal-open,
-    body.drawer-open { overflow: hidden; }
-
     .mobile-nav { display: none; }
 
     @media (max-width: 760px) {
@@ -491,27 +490,6 @@
       body { padding-bottom:94px; }
       .topbar { height: 72px; padding: 0 20px; }
       .search { display: none; }
-      .modal-backdrop {
-        padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-      }
-      .modal {
-        width: 100%;
-        max-height: calc(100vh - 24px);
-        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px);
-        border-radius: 14px;
-      }
-      .modal-head { padding: 16px 18px; background: white; }
-      #requestForm { padding: 18px; }
-      .request-drawer {
-        width: 100%;
-        padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
-        overscroll-behavior: contain;
-      }
-      .drawer-head { padding-bottom: 18px; }
-      .comment-composer-actions { gap: 8px; }
-      .comment-image-button { padding: 0 10px; }
       main { padding: 38px 20px 50px; }
       .page-header { align-items: flex-start; flex-direction: column; margin-bottom: 30px; }
       .stats { grid-template-columns: repeat(2, 1fr); }
@@ -607,7 +585,7 @@
     .request-drawer {
   position: fixed;
   inset: 0 0 0 auto;
-  z-index: 40;
+  z-index: 20;
   width: min(100%, 560px);
   padding: 32px;
   overflow-y: auto;
@@ -622,7 +600,7 @@
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 39;
+  z-index: 19;
   display: none;
   background: rgba(11,16,32,.48);
 }
@@ -646,16 +624,6 @@
   margin-top: 14px;
 }
 
-.drawer-images > .intro {
-  grid-column: 1 / -1;
-  width: 100%;
-  margin: 0;
-  padding: 13px 15px;
-  border: 1px dashed #dfe5ef;
-  border-radius: 9px;
-  background: #fafbff;
-}
-
 .drawer-image {
   aspect-ratio: 1;
   overflow: hidden;
@@ -673,7 +641,7 @@
 .image-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 60;
+  z-index: 30;
   display: none;
   place-items: center;
   padding: 25px;
@@ -721,43 +689,23 @@
 }
 
 .comment-composer {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 0;
-  padding: 0;
-}
-
-.comment-composer textarea {
-  width: 100%;
-  min-height: 88px;
-  resize: vertical;
-}
-
-.comment-composer-actions {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-top: 10px;
+  gap: 9px;
 }
 
-.comment-composer-actions .primary-button {
-  flex: 0 0 auto;
+.comment-composer input {
+  min-width: 0;
+  flex: 1;
 }
     .comment-image-button {
-  min-height: 43px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  margin: 0;
-  padding: 0 12px;
+  width: 43px;
+  height: 43px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
   border: 1px solid #e3e8f2;
   border-radius: 9px;
-  background: white;
   color: #635bff;
-  font-size: .8rem;
-  font-weight: 600;
   cursor: pointer;
 }
 
@@ -809,9 +757,12 @@
       <div class="nav-group">
         <p class="nav-label">Workspace</p>
         <button class="nav-item active"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></button>
-        <a class="nav-item" href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a>
-        <a class="nav-item" href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a class="nav-item" href="archive.html"><i data-lucide="archive"></i><span>Αρχείο</span></a>
+        <a class="nav-item" href="requests.html">
+  <i data-lucide="file-text"></i>
+  <span>Αιτήματα</span>
+</a>
+        <a class="nav-item" href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
+        <a class="nav-item" href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
       </div>
 
       <div class="sidebar-footer">
@@ -826,16 +777,16 @@
     </aside>
     <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
       <a class="active" href="index.html" aria-current="page"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
-      <a href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a>
       <a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχείο</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
+      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
     </nav>
 
     <div class="content">
       <header class="topbar">
         <label class="search">
           <i data-lucide="search"></i>
-          <input id="topSearch" type="search" placeholder="Αναζήτηση αιτημάτων..." aria-label="Αναζήτηση αιτημάτων" />
+          <input type="search" placeholder="Αναζήτηση αιτημάτων..." />
         </label>
 
         <div class="top-actions">
@@ -853,15 +804,18 @@
         </section>
 
         <section class="stats" aria-label="Σύνοψη αιτημάτων">
-          <article class="stat-card new">
+          <article class="stat-card">
+            <span class="stat-icon new"><i data-lucide="file-plus-2"></i></span>
             <div><strong id="newCount">0</strong><span>Νέα αιτήματα</span></div>
           </article>
 
-          <article class="stat-card progress">
+          <article class="stat-card">
+            <span class="stat-icon progress"><i data-lucide="loader-circle"></i></span>
             <div><strong id="progressCount">0</strong><span>Σε εξέλιξη</span></div>
           </article>
 
-          <article class="stat-card review">
+          <article class="stat-card">
+            <span class="stat-icon review"><i data-lucide="clock-3"></i></span>
             <div><strong id="reviewCount">0</strong><span>Για έγκριση</span></div>
           </article>
         </section>
@@ -880,40 +834,40 @@
               <thead>
                 <tr>
                   <th>Αίτημα</th>
-                  <th>Πελάτης</th>
                   <th>Σελίδα</th>
                   <th>Κατάσταση</th>
                   <th>Υποβλήθηκε</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="requestRows">
-                <tr data-website="Saitari" data-area="Αρχική" data-title="Αλλαγή τίτλου αρχικής σελίδας">
+                <tr>
                   <td class="request-title">Αλλαγή τίτλου αρχικής σελίδας</td>
-                  <td>Saitari</td>
                   <td>Αρχική</td>
                   <td><span class="status status-new">Νέο</span></td>
                   <td>24 Απρ. 2026</td>
+                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
-                <tr data-website="Kritivela" data-area="Σχετικά με εμάς" data-title="Αλλαγή φωτογραφίας ομάδας">
+                <tr>
                   <td class="request-title">Αλλαγή φωτογραφίας ομάδας</td>
-                  <td>Kritivela</td>
                   <td>Σχετικά με εμάς</td>
                   <td><span class="status status-progress">Σε εξέλιξη</span></td>
                   <td>23 Απρ. 2026</td>
+                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
-                <tr data-website="Portfolio" data-area="Projects" data-title="Νέο case study">
+                <tr>
                   <td class="request-title">Νέο case study</td>
-                  <td>Portfolio</td>
                   <td>Projects</td>
                   <td><span class="status status-review">Για έγκριση</span></td>
                   <td>22 Απρ. 2026</td>
+                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
-                <tr data-website="Calendrai" data-area="Επικοινωνία" data-title="Ενημέρωση φόρμας επικοινωνίας" data-completed-at="2026-09-23T12:00:00.000Z">
+                <tr data-completed-at="2026-09-01T12:00:00.000Z">
                   <td class="request-title">Ενημέρωση φόρμας επικοινωνίας</td>
-                  <td>Calendrai</td>
                   <td>Επικοινωνία</td>
                   <td><span class="status status-done">Ολοκληρώθηκε</span></td>
                   <td>20 Απρ. 2026</td>
+                  <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
               </tbody>
             </table>
@@ -977,17 +931,21 @@
   <div class="comments-list" id="commentsList"></div>
 
   <form class="comment-composer" id="commentForm">
-    <textarea id="commentInput" rows="3" placeholder="Γράψε το σχόλιό σου..."></textarea>
-    <div class="comment-composer-actions">
-      <label class="comment-image-button" for="commentImage" title="Επισύναψη εικόνας">
-        <i data-lucide="image-plus"></i>
-        <span>Επισύναψη εικόνας</span>
-      </label>
-      <input id="commentImage" type="file" accept="image/png,image/jpeg,image/webp" hidden />
-      <button type="submit" class="primary-button">Αποστολή</button>
-    </div>
-    <div class="comment-image-preview" id="commentImagePreview"></div>
-  </form>
+  <label class="comment-image-button" for="commentImage" title="Επισύναψη εικόνας">
+    <i data-lucide="image-plus"></i>
+  </label>
+
+  <input id="commentImage" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+
+  <input
+    id="commentInput"
+    placeholder="Γράψε ένα μήνυμα..."
+  />
+
+  <button type="submit" class="primary-button">Αποστολή</button>
+</form>
+
+<div class="comment-image-preview" id="commentImagePreview"></div>
 </div>
 <div class="drawer-actions">
   <button class="danger-button" type="button" id="deleteRequest"><i data-lucide="trash-2"></i>Διαγραφή αιτήματος</button>
@@ -1099,13 +1057,11 @@
 
     function openModal() {
       modal.classList.add("open");
-      document.body.classList.add("modal-open");
       document.getElementById("title").focus();
     }
 
     function closeModal() {
       modal.classList.remove("open");
-      document.body.classList.remove("modal-open");
       form.reset();
       selectedImages = [];
       requestImagePreviews.innerHTML = "";
@@ -1161,16 +1117,19 @@ function imageToDataUrl(file) {
       row.innerHTML = `
         <td class="request-title"></td>
         <td></td>
-        <td></td>
         <td><span class="status status-new">Νέο</span></td>
         <td>Μόλις τώρα</td>
+        <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
       `;
 
       row.dataset.title = title;
       row.querySelector(".request-title").textContent = title;
 
-      row.children[1].textContent = website;
-      row.children[2].textContent = area;
+      const websiteLabel = document.createElement("span");
+      websiteLabel.className = "request-website-label";
+      websiteLabel.textContent = website;
+      row.querySelector(".request-title").appendChild(websiteLabel);
+      row.children[1].textContent = area;
       row.dataset.area = area;
       row.dataset.website = website;
       row.dataset.priority = priority;
@@ -1248,7 +1207,7 @@ document.getElementById("drawerStatus").value =
   row.dataset.title || row.querySelector(".request-title").textContent;
 
   document.getElementById("drawerArea").textContent =
-    row.dataset.area || row.children[2].textContent;
+    row.dataset.area || row.children[1].textContent;
 
   const drawerImages = document.getElementById("drawerImages");
 const images = JSON.parse(row.dataset.images || "[]");
@@ -1256,7 +1215,7 @@ const images = JSON.parse(row.dataset.images || "[]");
 drawerImages.innerHTML = "";
 
 if (images.length === 0) {
-  drawerImages.innerHTML = '<p class="intro">Δεν υπάρχουν συνημμένες εικόνες.</p>';
+  drawerImages.innerHTML = '<p class="intro">Δεν έχουν προστεθεί εικόνες ακόμη.</p>';
 } else {
   images.forEach((src, index) => {
     const button = document.createElement("button");
@@ -1271,13 +1230,11 @@ if (images.length === 0) {
   
   drawer.classList.add("open");
   drawerBackdrop.classList.add("open");
-  document.body.classList.add("drawer-open");
 }
 
 function closeDrawer() {
   drawer.classList.remove("open");
   drawerBackdrop.classList.remove("open");
-  document.body.classList.remove("drawer-open");
 }
 
 document.getElementById("requestRows").addEventListener("click", (event) => {
@@ -1310,15 +1267,14 @@ lucide.createIcons();
 
     const REQUESTS_STORAGE_KEY = "saitari-requests";
     const ARCHIVE_STORAGE_KEY = "saitari-archived-requests";
-    const LEGACY_HISTORY_KEY = "saitari-archive-history";
+    const RETENTION_MS = 3 * 24 * 60 * 60 * 1000;
 
 function setDashboardCounts() {
   const counts = { "Νέο": 0, "Σε εξέλιξη": 0, "Για έγκριση": 0 };
-  const query = (document.getElementById("topSearch")?.value || "").trim().toLocaleLowerCase("el");
   [...rows.rows].forEach(row => {
     const status = row.querySelector(".status")?.textContent.trim() || "";
     row.dataset.status = status;
-    row.hidden = status === "Ολοκληρώθηκε" || !row.textContent.toLocaleLowerCase("el").includes(query);
+    row.hidden = status === "Ολοκληρώθηκε";
     if (status in counts) counts[status]++;
   });
   document.getElementById("newCount").textContent = counts["Νέο"];
@@ -1326,48 +1282,27 @@ function setDashboardCounts() {
   document.getElementById("reviewCount").textContent = counts["Για έγκριση"];
 }
 
-function normalizeRequestRow(row) {
-  if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
-  const statusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
-  if (statusIndex === 2) {
-    const client = row.dataset.website || row.querySelector(".request-website-label")?.textContent.trim() || "—";
-    row.insertCell(1).textContent = client;
-  }
-  row.querySelector(".request-website-label")?.remove();
-  if (row.querySelector(".ellipsis")) row.deleteCell(row.cells.length - 1);
-  return row;
-}
-
 function moveExpiredRows(markup) {
   const source = document.createElement("tbody");
   source.innerHTML = markup || "";
   const archived = document.createElement("tbody");
   archived.innerHTML = localStorage.getItem(ARCHIVE_STORAGE_KEY) || "";
-  const legacyHistory = document.createElement("tbody");
-  legacyHistory.innerHTML = localStorage.getItem(LEGACY_HISTORY_KEY) || "";
-  const identity = row => row.dataset.archiveKey || [row.dataset.title || row.querySelector(".request-title")?.textContent.trim(), row.dataset.completedAt || "", row.dataset.website || ""].join("::");
-  [...archived.rows].forEach(row => { normalizeRequestRow(row); row.dataset.archiveKey = row.dataset.archiveKey || identity(row); });
-  [...legacyHistory.rows].forEach(row => {
-    normalizeRequestRow(row);
-    row.dataset.title = row.dataset.title || row.querySelector(".request-title")?.textContent.trim() || "";
-    row.dataset.archiveKey = row.dataset.archiveKey || identity(row);
-    if (![...archived.rows].some(saved => identity(saved) === identity(row))) archived.appendChild(row);
-  });
   const now = Date.now();
   [...source.rows].forEach(row => {
-    normalizeRequestRow(row);
-    row.dataset.title = row.dataset.title || row.querySelector(".request-title")?.textContent.trim() || "";
     if (row.querySelector(".status")?.textContent.trim() !== "Ολοκληρώθηκε") return;
-    const completedAt = Date.parse(row.dataset.completedAt || "") || now;
-    row.dataset.completedAt = new Date(completedAt).toISOString();
-    row.dataset.archivedAt = row.dataset.archivedAt || new Date(now).toISOString();
-    row.dataset.archiveKey = row.dataset.archiveKey || crypto.randomUUID();
-    row.hidden = false;
-    archived.appendChild(row);
+    let completedAt = Date.parse(row.dataset.completedAt || "");
+    if (!Number.isFinite(completedAt)) {
+      completedAt = now;
+      row.dataset.completedAt = new Date(completedAt).toISOString();
+    }
+    if (now - completedAt >= RETENTION_MS) {
+      row.dataset.archivedAt = new Date(now).toISOString();
+      row.dataset.archiveKey = row.dataset.archiveKey || row.dataset.title || row.cells[0]?.textContent.trim() || crypto.randomUUID();
+      row.hidden = false;
+      archived.appendChild(row);
+    }
   });
-  localStorage.setItem(REQUESTS_STORAGE_KEY, source.innerHTML);
   localStorage.setItem(ARCHIVE_STORAGE_KEY, archived.innerHTML);
-  localStorage.setItem(LEGACY_HISTORY_KEY, "");
   return source.innerHTML;
 }
 
@@ -1401,7 +1336,6 @@ function loadRequests() {
 }
 
 loadRequests();
-document.getElementById("topSearch").addEventListener("input", setDashboardCounts);
 
     let activeRequestRow = null;
 
@@ -1457,7 +1391,7 @@ document.getElementById("commentForm").addEventListener("submit", (event) => {
   const comments = JSON.parse(activeRequestRow.dataset.comments || "[]");
 
   comments.push({
-    author: "Nikos",
+    author: "Tasos",
     text: text,
     image: selectedCommentImage,
     date: new Date().toLocaleString("el-GR")
@@ -1524,12 +1458,6 @@ function updateRequestStatus(row, status) {
     else delete row.dataset.completedAt;
     document.getElementById("drawerStatus").value = previousStatus;
     setDashboardCounts();
-    return;
-  }
-  if (status === "Ολοκληρώθηκε") {
-    rows.innerHTML = moveExpiredRows(rows.innerHTML);
-    closeDrawer();
-    activeRequestRow = null;
   }
 }
 
