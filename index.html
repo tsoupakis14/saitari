@@ -375,7 +375,7 @@
     .modal-backdrop {
       position: fixed;
       inset: 0;
-      z-index: 10;
+      z-index: 50;
       display: none;
       align-items: center;
       justify-content: center;
@@ -387,6 +387,10 @@
 
     .modal {
       width: min(100%, 560px);
+      max-height: calc(100vh - 36px);
+      max-height: calc(100dvh - 36px);
+      display: flex;
+      flex-direction: column;
       border-radius: 16px;
       overflow: hidden;
       background: white;
@@ -395,6 +399,7 @@
 
     .modal-head {
       display: flex;
+      flex: 0 0 auto;
       align-items: center;
       justify-content: space-between;
       padding: 23px 25px;
@@ -415,7 +420,13 @@
 
     .close-modal svg { width: 19px; height: 19px; }
 
-    form { padding: 25px; }
+    #requestForm {
+      flex: 1 1 auto;
+      min-height: 0;
+      overflow-y: auto;
+      overscroll-behavior: contain;
+      padding: 25px;
+    }
 
     label {
       display: block;
@@ -465,6 +476,9 @@
       .profile div { display: none; }
     }
 
+    body.modal-open,
+    body.drawer-open { overflow: hidden; }
+
     .mobile-nav { display: none; }
 
     @media (max-width: 760px) {
@@ -477,6 +491,27 @@
       body { padding-bottom:94px; }
       .topbar { height: 72px; padding: 0 20px; }
       .search { display: none; }
+      .modal-backdrop {
+        padding: max(12px, env(safe-area-inset-top)) 12px max(12px, env(safe-area-inset-bottom));
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+      }
+      .modal {
+        width: 100%;
+        max-height: calc(100vh - 24px);
+        max-height: calc(100dvh - env(safe-area-inset-top) - env(safe-area-inset-bottom) - 24px);
+        border-radius: 14px;
+      }
+      .modal-head { padding: 16px 18px; background: white; }
+      #requestForm { padding: 18px; }
+      .request-drawer {
+        width: 100%;
+        padding: 22px 18px calc(24px + env(safe-area-inset-bottom));
+        overscroll-behavior: contain;
+      }
+      .drawer-head { padding-bottom: 18px; }
+      .comment-composer-actions { gap: 8px; }
+      .comment-image-button { padding: 0 10px; }
       main { padding: 38px 20px 50px; }
       .page-header { align-items: flex-start; flex-direction: column; margin-bottom: 30px; }
       .stats { grid-template-columns: repeat(2, 1fr); }
@@ -572,7 +607,7 @@
     .request-drawer {
   position: fixed;
   inset: 0 0 0 auto;
-  z-index: 20;
+  z-index: 40;
   width: min(100%, 560px);
   padding: 32px;
   overflow-y: auto;
@@ -587,7 +622,7 @@
 .drawer-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 19;
+  z-index: 39;
   display: none;
   background: rgba(11,16,32,.48);
 }
@@ -611,6 +646,16 @@
   margin-top: 14px;
 }
 
+.drawer-images > .intro {
+  grid-column: 1 / -1;
+  width: 100%;
+  margin: 0;
+  padding: 13px 15px;
+  border: 1px dashed #dfe5ef;
+  border-radius: 9px;
+  background: #fafbff;
+}
+
 .drawer-image {
   aspect-ratio: 1;
   overflow: hidden;
@@ -628,7 +673,7 @@
 .image-lightbox {
   position: fixed;
   inset: 0;
-  z-index: 30;
+  z-index: 60;
   display: none;
   place-items: center;
   padding: 25px;
@@ -676,23 +721,43 @@
 }
 
 .comment-composer {
-  display: flex;
-  gap: 9px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 0;
+  padding: 0;
 }
 
-.comment-composer input {
-  min-width: 0;
-  flex: 1;
+.comment-composer textarea {
+  width: 100%;
+  min-height: 88px;
+  resize: vertical;
+}
+
+.comment-composer-actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.comment-composer-actions .primary-button {
+  flex: 0 0 auto;
 }
     .comment-image-button {
-  width: 43px;
-  height: 43px;
-  display: grid;
-  place-items: center;
-  flex: 0 0 auto;
+  min-height: 43px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: 0 12px;
   border: 1px solid #e3e8f2;
   border-radius: 9px;
+  background: white;
   color: #635bff;
+  font-size: .8rem;
+  font-weight: 600;
   cursor: pointer;
 }
 
@@ -912,21 +977,17 @@
   <div class="comments-list" id="commentsList"></div>
 
   <form class="comment-composer" id="commentForm">
-  <label class="comment-image-button" for="commentImage" title="Επισύναψη εικόνας">
-    <i data-lucide="image-plus"></i>
-  </label>
-
-  <input id="commentImage" type="file" accept="image/png,image/jpeg,image/webp" hidden />
-
-  <input
-    id="commentInput"
-    placeholder="Γράψε ένα μήνυμα..."
-  />
-
-  <button type="submit" class="primary-button">Αποστολή</button>
-</form>
-
-<div class="comment-image-preview" id="commentImagePreview"></div>
+    <textarea id="commentInput" rows="3" placeholder="Γράψε το σχόλιό σου..."></textarea>
+    <div class="comment-composer-actions">
+      <label class="comment-image-button" for="commentImage" title="Επισύναψη εικόνας">
+        <i data-lucide="image-plus"></i>
+        <span>Επισύναψη εικόνας</span>
+      </label>
+      <input id="commentImage" type="file" accept="image/png,image/jpeg,image/webp" hidden />
+      <button type="submit" class="primary-button">Αποστολή</button>
+    </div>
+    <div class="comment-image-preview" id="commentImagePreview"></div>
+  </form>
 </div>
 <div class="drawer-actions">
   <button class="danger-button" type="button" id="deleteRequest"><i data-lucide="trash-2"></i>Διαγραφή αιτήματος</button>
@@ -1038,11 +1099,13 @@
 
     function openModal() {
       modal.classList.add("open");
+      document.body.classList.add("modal-open");
       document.getElementById("title").focus();
     }
 
     function closeModal() {
       modal.classList.remove("open");
+      document.body.classList.remove("modal-open");
       form.reset();
       selectedImages = [];
       requestImagePreviews.innerHTML = "";
@@ -1193,7 +1256,7 @@ const images = JSON.parse(row.dataset.images || "[]");
 drawerImages.innerHTML = "";
 
 if (images.length === 0) {
-  drawerImages.innerHTML = '<p class="intro">Δεν έχουν προστεθεί εικόνες ακόμη.</p>';
+  drawerImages.innerHTML = '<p class="intro">Δεν υπάρχουν συνημμένες εικόνες.</p>';
 } else {
   images.forEach((src, index) => {
     const button = document.createElement("button");
@@ -1208,11 +1271,13 @@ if (images.length === 0) {
   
   drawer.classList.add("open");
   drawerBackdrop.classList.add("open");
+  document.body.classList.add("drawer-open");
 }
 
 function closeDrawer() {
   drawer.classList.remove("open");
   drawerBackdrop.classList.remove("open");
+  document.body.classList.remove("drawer-open");
 }
 
 document.getElementById("requestRows").addEventListener("click", (event) => {
