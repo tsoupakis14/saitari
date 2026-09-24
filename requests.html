@@ -5,9 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Όλα τα αιτήματα του Saitari." />
   <title>Αιτήματα — Saitari</title>
-  <link rel="icon" type="image/svg+xml" href="/assets/saitari-favicon.svg">
-  <link rel="icon" type="image/png" sizes="32x32" href="/assets/saitari-favicon-32.png">
-  <link rel="apple-touch-icon" href="/assets/saitari-site-icon.png">
+
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
@@ -161,20 +159,17 @@
     }
 
     .search {
-      width: min(400px, 44vw);
-      height: 42px;
+      width: min(390px, 40vw);
       display: flex;
       align-items: center;
-      gap: 11px;
-      padding: 0 13px;
-      border: 1px solid #dce3ef;
-      border-radius: 9px;
-      background: #fff;
+      gap: 10px;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: #f2f5fb;
       color: var(--muted);
     }
 
-    .search svg { width: 17px; height: 17px; }
-    .search:focus-within { border-color: #a9a5ff; box-shadow: 0 0 0 3px #635bff12; }
+    .search svg { width: 18px; height: 18px; }
 
     .search input {
       width: 100%;
@@ -226,11 +221,8 @@
     }
 
     h1 {
-      font-family: "Space Grotesk", sans-serif;
-      font-size: clamp(2rem, 3vw, 2.55rem);
-      font-weight: 700;
-      line-height: 1.1;
-      letter-spacing: -0.045em;
+      font-size: clamp(2rem, 4vw, 3.3rem);
+      line-height: 1;
     }
 
     .intro {
@@ -252,21 +244,11 @@
       min-height: 46px;
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 0 13px;
+      padding: 0 25px 0 13px;
       outline: none;
       background: white;
       color: var(--text);
       font-size: .86rem;
-    }
-
-    .filters select {
-      appearance: none;
-      -webkit-appearance: none;
-      padding-right: 42px;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%2326334c' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 15px center;
-      background-size: 13px;
     }
 
     .filters input:focus,
@@ -293,7 +275,7 @@
 
     table {
       width: 100%;
-      min-width: 680px;
+      min-width: 760px;
       border-collapse: collapse;
     }
 
@@ -326,9 +308,9 @@
       align-items: center;
       min-height: 34px;
       padding: 6px 12px;
-      border: 1px solid #dfe5ef;
-      border-left: 4px solid currentColor;
-      border-radius: 6px;
+      border: 1px solid currentColor;
+      border-left-width: 4px;
+      border-radius: 7px;
       font-size: .78rem;
       font-weight: 650;
       white-space: nowrap;
@@ -391,13 +373,6 @@
   font-size: .76rem;
   font-weight: 400;
 }
-    .brand-mark-image {
-  width: 33px;
-  height: 33px;
-  display: block;
-  object-fit: contain;
-  border-radius: 9px;
-}
   </style>
 </head>
 
@@ -405,7 +380,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <img class="brand-mark-image" src="/assets/saitari-icon.svg" alt="">
+        <span class="brand-mark">S</span>
         <span>Saitari</span>
       </div>
 
@@ -415,17 +390,17 @@
           <i data-lucide="layout-dashboard"></i>
           <span>Dashboard</span>
         </a>
-        <a class="nav-item" href="websites.html">
-          <i data-lucide="users-round"></i>
-          <span>Πελάτες</span>
-        </a>
         <a class="nav-item active" href="requests.html" aria-current="page">
           <i data-lucide="file-text"></i>
           <span>Αιτήματα</span>
         </a>
+        <a class="nav-item" href="websites.html">
+          <i data-lucide="monitor"></i>
+          <span>Πελάτες</span>
+        </a>
         <a class="nav-item" href="archive.html">
           <i data-lucide="archive"></i>
-          <span>Αρχείο</span>
+          <span>Αρχεία</span>
         </a>
       </div>
 
@@ -441,9 +416,9 @@
     </aside>
     <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
       <a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
-      <a href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a>
       <a class="active" href="requests.html" aria-current="page"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχείο</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
+      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
     </nav>
 
     <div class="content">
@@ -495,9 +470,10 @@
               <thead>
                 <tr>
                   <th>Αίτημα</th>
-                  <th>Πελάτης</th>
+                  <th>Σελίδα</th>
                   <th>Κατάσταση</th>
                   <th>Υποβλήθηκε</th>
+                  <th></th>
                 </tr>
               </thead>
               <tbody id="requestList"></tbody>
@@ -524,49 +500,30 @@
     const resultsCount = document.getElementById("resultsCount");
     const emptyState = document.getElementById("emptyState");
     const ARCHIVE_KEY = "saitari-archived-requests";
-    const LEGACY_HISTORY_KEY = "saitari-archive-history";
-
-    function normalizeRequestRow(row) {
-      if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
-      if (row.querySelector(".ellipsis")) row.deleteCell(row.cells.length - 1);
-      const statusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
-      const website = row.dataset.website || row.querySelector(".request-website-label")?.textContent.trim() || "—";
-      if (statusIndex === 2 && row.cells[1]?.textContent.trim() !== website) row.insertCell(1).textContent = website;
-      row.querySelector(".request-website-label")?.remove();
-      const normalizedStatusIndex = [...row.cells].findIndex(cell => cell.querySelector(".status"));
-      if (normalizedStatusIndex === 3 && row.cells.length >= 5) row.deleteCell(2);
-      return row;
-    }
+    const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
 
     function moveExpiredRequests(markup) {
       const active = document.createElement("tbody");
       active.innerHTML = markup || "";
       const archive = document.createElement("tbody");
       archive.innerHTML = localStorage.getItem(ARCHIVE_KEY) || "";
-      const legacyHistory = document.createElement("tbody");
-      legacyHistory.innerHTML = localStorage.getItem(LEGACY_HISTORY_KEY) || "";
-      const identity = row => row.dataset.archiveKey || [row.dataset.title || row.querySelector(".request-title")?.textContent.trim(), row.dataset.completedAt || "", row.dataset.website || ""].join("::");
-      [...archive.rows].forEach(row => { normalizeRequestRow(row); row.dataset.archiveKey = row.dataset.archiveKey || identity(row); });
-      [...legacyHistory.rows].forEach(row => {
-        normalizeRequestRow(row);
-        row.dataset.title = row.dataset.title || row.querySelector(".request-title")?.textContent.trim() || "";
-        row.dataset.archiveKey = row.dataset.archiveKey || identity(row);
-        if (![...archive.rows].some(saved => identity(saved) === identity(row))) archive.appendChild(row);
-      });
       const now = Date.now();
       [...active.rows].forEach(row => {
-        normalizeRequestRow(row);
-        row.dataset.title = row.dataset.title || row.querySelector(".request-title")?.textContent.trim() || "";
         if (row.querySelector(".status")?.textContent.trim() !== "Ολοκληρώθηκε") return;
-        if (!Date.parse(row.dataset.completedAt || "")) row.dataset.completedAt = new Date(now).toISOString();
-        row.dataset.archivedAt = row.dataset.archivedAt || new Date(now).toISOString();
-        row.dataset.archiveKey = row.dataset.archiveKey || crypto.randomUUID();
-        row.hidden = false;
-        archive.appendChild(row);
+        let completedAt = Date.parse(row.dataset.completedAt || "");
+        if (!Number.isFinite(completedAt)) {
+          completedAt = now;
+          row.dataset.completedAt = new Date(now).toISOString();
+        }
+        if (now - completedAt >= THREE_DAYS) {
+          row.dataset.archivedAt = new Date(now).toISOString();
+          row.dataset.archiveKey = row.dataset.archiveKey || row.dataset.title || row.cells[0]?.textContent.trim() || crypto.randomUUID();
+          row.hidden = false;
+          archive.appendChild(row);
+        }
       });
       localStorage.setItem(STORAGE_KEY, active.innerHTML);
       localStorage.setItem(ARCHIVE_KEY, archive.innerHTML);
-      localStorage.setItem(LEGACY_HISTORY_KEY, "");
       return active.innerHTML;
     }
 
@@ -620,7 +577,10 @@
           copy.dataset.website = "Run Jane Run";
         }
 
-        normalizeRequestRow(copy);
+        // Συμβατότητα με αιτήματα που αποθηκεύτηκαν πριν αφαιρεθεί η στήλη #.
+        if (copy.cells[0]?.classList.contains("request-number")) copy.deleteCell(0);
+        // Αφαιρεί τη στήλη με τις επιλογές, αν υπάρχει.
+        if (copy.cells.length > 4) copy.deleteCell(copy.cells.length - 1);
 
         copy.addEventListener("click", () => {
           const title = copy.dataset.title || copy.querySelector(".request-title")?.textContent.trim() || "";
