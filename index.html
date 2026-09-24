@@ -177,12 +177,21 @@
       background: #fff;
       color: var(--muted);
     }
+
+    .search svg { width: 17px; height: 17px; }
     .search:focus-within { border-color: #a9a5ff; box-shadow: 0 0 0 3px #635bff12; }
 
-    .search svg { width: 18px; height: 18px; }
-    .search input { width: 100%; border: 0; outline: 0; background: transparent; color: var(--text); font-size: .88rem; }
+    .search input {
+      width: 100%;
+      border: 0;
+      outline: 0;
+      background: transparent;
+      color: var(--text);
+      font-size: .88rem;
+    }
 
     .top-actions { display: flex; align-items: center; gap: 22px; }
+
     .icon-button {
       width: 37px;
       height: 37px;
@@ -197,8 +206,15 @@
     .icon-button:hover { background: #f1f4fa; }
     .icon-button svg { width: 20px; height: 20px; }
 
-    .account { display: flex; align-items: center; gap: 10px; font-size: .88rem; font-weight: 600; }
-    .account svg { width: 16px; height: 16px; color: var(--muted); }
+    .account {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: .88rem;
+      font-weight: 600;
+    }
+
+    .account svg { width: 16px; height: 16px; color: var(--muted); }    
 
     main {
       width: min(100%, 1320px);
@@ -770,11 +786,13 @@
       <header class="topbar">
         <label class="search">
           <i data-lucide="search"></i>
-          <input id="topSearch" type="search" placeholder="Αναζήτηση αιτημάτων..." aria-label="Αναζήτηση αιτημάτων" />
+          <input id="topSearch" type="search" placeholder="Αναζήτηση αιτημάτων..." />
         </label>
 
         <div class="top-actions">
-          <button class="icon-button" aria-label="Ειδοποιήσεις"><i data-lucide="bell"></i></button>
+          <button class="icon-button" aria-label="Ειδοποιήσεις">
+            <i data-lucide="bell"></i>
+          </button>
           <div class="account">Tasos <i data-lucide="chevron-down"></i></div>
         </div>
       </header>
