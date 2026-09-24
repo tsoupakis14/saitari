@@ -360,11 +360,11 @@
     @media (max-width: 760px) {
       .app { display: block; }
       .sidebar { display: none; }
-      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
+      .mobile-nav { position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(4,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044; }
       .mobile-nav a { min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem; }
       .mobile-nav a.active { color:#fff;border-bottom:2px solid var(--indigo); }
       .mobile-nav svg { width:19px;height:19px; }
-      body { padding-bottom:82px; }
+      body { padding-bottom:94px; }
       .topbar { height: 72px; padding: 0 20px; }
       .search { display: none; }
       main { padding: 38px 20px 50px; }
@@ -406,8 +406,8 @@
           <i data-lucide="monitor"></i>
           <span>Websites</span>
         </a>
-        <a class="nav-item" href="#">
-          <i data-lucide="folder"></i>
+        <a class="nav-item" href="archive.html">
+          <i data-lucide="archive"></i>
           <span>Αρχεία</span>
         </a>
         <a class="nav-item" href="#">
@@ -438,6 +438,7 @@
       <a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
       <a class="active" href="requests.html" aria-current="page"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
       <a href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
+      <a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
     </nav>
 
     <div class="content">
@@ -519,6 +520,33 @@
     const websiteFilter = document.getElementById("websiteFilter");
     const resultsCount = document.getElementById("resultsCount");
     const emptyState = document.getElementById("emptyState");
+    const ARCHIVE_KEY = "saitari-archived-requests";
+    const THREE_DAYS = 3 * 24 * 60 * 60 * 1000;
+
+    function moveExpiredRequests(markup) {
+      const active = document.createElement("tbody");
+      active.innerHTML = markup || "";
+      const archive = document.createElement("tbody");
+      archive.innerHTML = localStorage.getItem(ARCHIVE_KEY) || "";
+      const now = Date.now();
+      [...active.rows].forEach(row => {
+        if (row.querySelector(".status")?.textContent.trim() !== "Ολοκληρώθηκε") return;
+        let completedAt = Date.parse(row.dataset.completedAt || "");
+        if (!Number.isFinite(completedAt)) {
+          completedAt = now;
+          row.dataset.completedAt = new Date(now).toISOString();
+        }
+        if (now - completedAt >= THREE_DAYS) {
+          row.dataset.archivedAt = new Date(now).toISOString();
+          row.dataset.archiveKey = row.dataset.archiveKey || row.dataset.title || row.cells[0]?.textContent.trim() || crypto.randomUUID();
+          row.hidden = false;
+          archive.appendChild(row);
+        }
+      });
+      localStorage.setItem(STORAGE_KEY, active.innerHTML);
+      localStorage.setItem(ARCHIVE_KEY, archive.innerHTML);
+      return active.innerHTML;
+    }
 
     function getCellText(row, index) {
       return row.cells[index]?.textContent.trim() || "";
@@ -530,6 +558,9 @@
       const websites = new Set(DEMO_WEBSITES);
       try {
         JSON.parse(localStorage.getItem("saitari-projects") || "[]").forEach(project => websites.add(project.name));
+      } catch (error) {}
+      try {
+        JSON.parse(localStorage.getItem("saitari-deleted-projects") || "[]").forEach(name => websites.delete(name));
       } catch (error) {}
 
       rows.forEach((row) => {
@@ -550,7 +581,7 @@
 
       let savedRows = [];
       try {
-        const saved = localStorage.getItem(STORAGE_KEY);
+        const saved = moveExpiredRequests(localStorage.getItem(STORAGE_KEY));
         if (saved) {
           const temporaryTable = document.createElement("tbody");
           temporaryTable.innerHTML = saved;
@@ -562,6 +593,7 @@
 
       savedRows.forEach((row) => {
         const copy = row.cloneNode(true);
+        copy.hidden = false;
         if (["Run", "Jane", "Run!"].includes(copy.dataset.website)) {
           copy.dataset.website = "Run Jane Run";
         }

@@ -21,9 +21,9 @@ main{width:min(100%,1320px);margin:0 auto;padding:56px 46px 70px}h1,h2{margin:0;
 .page-header{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-bottom:32px}.header-link{display:inline-flex;align-items:center;gap:8px;color:var(--indigo);font-size:.86rem;font-weight:700;text-decoration:none}.header-link svg{width:17px}.primary-button{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:0 15px;border:0;border-radius:9px;background:var(--indigo);color:white;font:600 .87rem Inter;cursor:pointer}.primary-button svg{width:17px}
 .project-search{width:100%;max-width:440px;height:46px;margin:0 0 18px;padding:0 14px;border:1px solid var(--border);border-radius:10px;background:#fff;color:var(--text);font:inherit;outline:0}.project-search:focus{border-color:var(--indigo);box-shadow:0 0 0 3px #635bff1c}
 .project-count{margin:0 0 15px;color:var(--muted);font-size:.82rem}.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:17px}.project-card{min-height:228px;padding:23px;border:1px solid var(--border);border-radius:15px;background:#fff;box-shadow:var(--shadow);display:flex;flex-direction:column;transition:transform .18s,border-color .18s}.project-card:hover{transform:translateY(-3px);border-color:#c9c6ff}.card-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}.project-icon{width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:#eeedff;color:var(--indigo)}.project-icon svg{width:21px}.project-type{color:var(--muted);font-size:.75rem}.project-card h2{margin-top:20px;font-size:1.2rem}.project-meta{margin:6px 0 0;color:var(--muted);font-size:.81rem}.project-bottom{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:auto;padding-top:22px}.request-count{color:#65718b;font-size:.79rem}.open-project{display:inline-flex;align-items:center;gap:6px;color:var(--indigo);font-size:.82rem;font-weight:700;text-decoration:none}.open-project svg{width:16px}
-.empty-state{padding:45px 20px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);text-align:center}.empty-state[hidden]{display:none}
+.empty-state{padding:45px 20px;border:1px dashed var(--border);border-radius:14px;color:var(--muted);text-align:center}.empty-state[hidden]{display:none}.delete-project{min-height:34px;display:inline-flex;align-items:center;gap:5px;border:1px solid #f1caca;border-radius:8px;padding:0 9px;background:white;color:#b42318;font:600 .76rem Inter;cursor:pointer}.delete-project svg{width:15px}
 .mobile-nav{display:none}@media(max-width:1100px){.project-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:1020px){.app{grid-template-columns:76px minmax(0,1fr)}.sidebar{padding-inline:10px}.brand{justify-content:center;margin-inline:0}.brand>span:last-child,.nav-label,.nav-item>span{display:none}.nav-item{justify-content:center;padding:0}.nav-item svg{width:20px;height:20px}.profile{justify-content:center}.profile div{display:none}}
-@media(max-width:760px){.app{display:block}.sidebar{display:none}.mobile-nav{display:grid;position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(3,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044}.mobile-nav a{min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem}.mobile-nav a.active{color:#fff;border-bottom:2px solid var(--indigo)}.mobile-nav svg{width:19px;height:19px}body{padding-bottom:82px}.topbar{height:72px;padding:0 20px}.search{display:none}main{padding:38px 20px 50px}.page-header{align-items:flex-start;flex-direction:column;margin-bottom:25px}.project-grid{grid-template-columns:1fr}}
+@media(max-width:760px){.app{display:block}.sidebar{display:none}.mobile-nav{display:grid;position:fixed;z-index:30;left:12px;right:12px;bottom:12px;display:grid;grid-template-columns:repeat(4,1fr);padding:8px;background:#0b1020;border:1px solid #ffffff18;border-radius:16px;box-shadow:0 12px 35px #0b102044}.mobile-nav a{min-height:48px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#bdc8e6;text-decoration:none;font-size:.68rem}.mobile-nav a.active{color:#fff;border-bottom:2px solid var(--indigo)}.mobile-nav svg{width:19px;height:19px}body{padding-bottom:94px}.topbar{height:72px;padding:0 20px}.search{display:none}main{padding:38px 20px 50px}.page-header{align-items:flex-start;flex-direction:column;margin-bottom:25px}.project-grid{grid-template-columns:1fr}}
 @media(max-width:480px){.account{display:none}}
 </style>
 </head>
@@ -35,12 +35,12 @@ main{width:min(100%,1320px);margin:0 auto;padding:56px 46px 70px}h1,h2{margin:0;
 <a class="nav-item" href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
 <a class="nav-item" href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
 <a class="nav-item active" href="websites.html" aria-current="page"><i data-lucide="monitor"></i><span>Websites</span></a>
-<a class="nav-item" href="#"><i data-lucide="folder"></i><span>Αρχεία</span></a>
+<a class="nav-item" href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
 <a class="nav-item" href="#"><i data-lucide="message-square"></i><span>Μηνύματα</span></a></div>
 <div class="nav-group"><p class="nav-label">Ρυθμίσεις</p><a class="nav-item" href="#"><i data-lucide="settings"></i><span>Ρυθμίσεις</span></a></div>
 <div class="sidebar-footer"><div class="profile"><span class="avatar">NT</span><div><strong>Tasos</strong><small>Designer</small></div></div></div>
 </aside>
-<nav class="mobile-nav" aria-label="Κύρια πλοήγηση"><a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a><a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a><a class="active" href="websites.html" aria-current="page"><i data-lucide="monitor"></i><span>Websites</span></a></nav>
+<nav class="mobile-nav" aria-label="Κύρια πλοήγηση"><a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a><a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a><a class="active" href="websites.html" aria-current="page"><i data-lucide="monitor"></i><span>Websites</span></a><a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a></nav>
 <div class="content">
 <header class="topbar"><label class="search"><i data-lucide="search"></i><input id="topSearch" type="search" placeholder="Αναζήτηση projects..." aria-label="Αναζήτηση projects"></label><div class="top-actions"><a class="header-link" href="index.html">Dashboard</a><button class="icon-button" aria-label="Ειδοποιήσεις"><i data-lucide="bell"></i></button><div class="account">Tasos <i data-lucide="chevron-down"></i></div></div></header>
 <main>
@@ -61,15 +61,29 @@ const projects=[
 {name:"Football Quiz",client:"Leo P. · Games",type:"Quiz game",icon:"trophy",description:"Διαδραστικό quiz για ποδόσφαιρο."},
 {name:"Fun Quiz",client:"Mina R. · Games",type:"Quiz game",icon:"circle-help",description:"Σύντομα quiz για φίλους και παρέες."}
 ];
-const PROJECTS_KEY="saitari-projects";
-try { const stored=JSON.parse(localStorage.getItem(PROJECTS_KEY)||"[]"); stored.forEach(item=>{if(!projects.some(p=>p.name.toLowerCase()===item.name.toLowerCase())) projects.push(item)}); } catch(e){}
+const PROJECTS_KEY="saitari-projects", DELETED_KEY="saitari-deleted-projects";
+let deletedNames=[];try{deletedNames=JSON.parse(localStorage.getItem(DELETED_KEY)||"[]")}catch(e){}
+deletedNames.forEach(name=>{const i=projects.findIndex(p=>p.name===name);if(i>=0)projects.splice(i,1)});
+try { const stored=JSON.parse(localStorage.getItem(PROJECTS_KEY)||"[]"); stored.forEach(item=>{if(!projects.some(p=>p.name.toLowerCase()===item.name.toLowerCase())&&!deletedNames.includes(item.name)) projects.push(item)}); } catch(e){}
 let savedRows=[];try{const raw=localStorage.getItem("saitari-requests");if(raw){const tb=document.createElement("tbody");tb.innerHTML=raw;savedRows=[...tb.rows]}}catch(e){}
 const grid=document.getElementById("projectGrid");
 function renderProjects(){grid.innerHTML="";projects.forEach(project=>{
 const count=savedRows.filter(row=>(["Run","Jane","Run!"].includes(row.dataset.website)?"Run Jane Run":row.dataset.website)===project.name).length;
 const card=document.createElement("article");card.className="project-card";card.dataset.search=(project.name+" "+project.client+" "+project.type).toLowerCase();
-card.innerHTML='<div class="card-top"><span class="project-icon"><i data-lucide="'+project.icon+'"></i></span><span class="project-type"></span></div><h2></h2><p class="project-meta"></p><div class="project-bottom"><span class="request-count"></span><a class="open-project" href="#"><span>Προβολή αιτημάτων</span><i data-lucide="arrow-up-right"></i></a></div>';
-card.querySelector(".project-type").textContent=project.type;card.querySelector("h2").textContent=project.name;card.querySelector(".project-meta").textContent=project.client+" · "+project.description;card.querySelector(".request-count").textContent=count+" "+(count===1?"αίτημα":"αιτήματα");card.querySelector("a").href="requests.html?website="+encodeURIComponent(project.name);grid.appendChild(card)
+card.innerHTML='<div class="card-top"><span class="project-icon"><i data-lucide="'+project.icon+'"></i></span><span class="project-type"></span></div><h2></h2><p class="project-meta"></p><div class="project-bottom"><span class="request-count"></span><a class="open-project" href="#"><span>Προβολή αιτημάτων</span><i data-lucide="arrow-up-right"></i></a><button class="delete-project" type="button"><i data-lucide="trash-2"></i>Διαγραφή</button></div>';
+card.querySelector(".project-type").textContent=project.type;card.querySelector("h2").textContent=project.name;card.querySelector(".project-meta").textContent=project.client+" · "+project.description;card.querySelector(".request-count").textContent=count+" "+(count===1?"αίτημα":"αιτήματα");card.querySelector("a").href="requests.html?website="+encodeURIComponent(project.name);
+card.querySelector(".delete-project").addEventListener("click",()=>{
+ const aliases=project.name==="Run Jane Run"?["Run Jane Run","Run","Jane","Run!"]:[project.name];
+ const activeRows=document.createElement("tbody"),archiveRows=document.createElement("tbody");activeRows.innerHTML=localStorage.getItem("saitari-requests")||"";archiveRows.innerHTML=localStorage.getItem("saitari-archived-requests")||"";
+ const linked=[...activeRows.rows,...archiveRows.rows].filter(row=>aliases.includes(row.dataset.website));
+ const extra=linked.length?" Θα διαγραφούν επίσης "+linked.length+" σχετικά αιτήματα.":"";
+ if(!confirm("Να διαγραφεί το project «"+project.name+"»;"+extra))return;
+ linked.forEach(row=>row.remove());
+ try{localStorage.setItem("saitari-requests",activeRows.innerHTML);localStorage.setItem("saitari-archived-requests",archiveRows.innerHTML)}catch(e){alert("Δεν ήταν δυνατή η αποθήκευση της διαγραφής.");return}
+ const index=projects.findIndex(item=>item.name===project.name);if(index>=0)projects.splice(index,1);
+ if(["Saitari","Kritivela","Calendrai","Portfolio","Run Jane Run","Football Quiz","Fun Quiz"].includes(project.name))deletedNames.push(project.name);
+ localStorage.setItem(PROJECTS_KEY,JSON.stringify(projects.filter(item=>!["Saitari","Kritivela","Calendrai","Portfolio","Run Jane Run","Football Quiz","Fun Quiz"].includes(item.name))));localStorage.setItem(DELETED_KEY,JSON.stringify(deletedNames));renderProjects();filterProjects();
+});grid.appendChild(card)
 });lucide.createIcons();}
 renderProjects();
 const search=document.getElementById("projectSearch"),topSearch=document.getElementById("topSearch"),empty=document.getElementById("emptyState"),count=document.getElementById("projectCount");
@@ -79,7 +93,7 @@ document.getElementById("addProject").addEventListener("click",()=>{
  if(projects.some(p=>p.name.toLowerCase()===name.trim().toLowerCase())){alert("Υπάρχει ήδη project με αυτό το όνομα.");return;}
  const client=prompt("Πελάτης ή σύντομη περιγραφή:")||"Νέο project";
  const project={name:name.trim(),client:client.trim(),type:"Website",icon:"globe-2",description:"Project website."};
- projects.push(project); try{localStorage.setItem(PROJECTS_KEY,JSON.stringify(projects.filter(p=>!['Saitari','Kritivela','Calendrai','Portfolio','Run Jane Run','Football Quiz','Fun Quiz'].includes(p.name))))}catch(e){}
+ projects.push(project);deletedNames=deletedNames.filter(item=>item!==project.name);try{localStorage.setItem(PROJECTS_KEY,JSON.stringify(projects.filter(p=>!['Saitari','Kritivela','Calendrai','Portfolio','Run Jane Run','Football Quiz','Fun Quiz'].includes(p.name))));localStorage.setItem(DELETED_KEY,JSON.stringify(deletedNames))}catch(e){}
  renderProjects();filterProjects();
 });
 search.addEventListener("input",()=>{topSearch.value=search.value;filterProjects()});topSearch.addEventListener("input",()=>{search.value=topSearch.value;filterProjects()});filterProjects();
