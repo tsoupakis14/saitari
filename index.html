@@ -351,7 +351,6 @@
     tbody tr { cursor: pointer; transition: background .18s ease; }
     tbody tr:hover { background: #fafbff; }
 
-    .request-number { color: #8190ae; font-size: .8rem; }
     .request-title {
       color: var(--text);
       font-family: "Space Grotesk", sans-serif;
@@ -363,21 +362,14 @@
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      min-height: 38px;
-      padding: 0 16px;
-      border-radius: 999px;
-      font-size: .81rem;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid currentColor;
+      border-left-width: 4px;
+      border-radius: 7px;
+      font-size: .78rem;
       font-weight: 650;
       white-space: nowrap;
-    }
-
-    .status::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
     }
 
     .status-new { color: #5d55eb; background: #eeedff; }
@@ -769,14 +761,8 @@
   <i data-lucide="file-text"></i>
   <span>Αιτήματα</span>
 </a>
-        <a class="nav-item" href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
+        <a class="nav-item" href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
         <a class="nav-item" href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
-        <button class="nav-item"><i data-lucide="message-square"></i><span>Μηνύματα</span></button>
-      </div>
-
-      <div class="nav-group">
-        <p class="nav-label">Ρυθμίσεις</p>
-        <button class="nav-item"><i data-lucide="settings"></i><span>Ρυθμίσεις</span></button>
       </div>
 
       <div class="sidebar-footer">
@@ -792,7 +778,7 @@
     <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
       <a class="active" href="index.html" aria-current="page"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
       <a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
       <a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
     </nav>
 
@@ -847,7 +833,6 @@
             <table>
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Αίτημα</th>
                   <th>Σελίδα</th>
                   <th>Κατάσταση</th>
@@ -857,7 +842,6 @@
               </thead>
               <tbody id="requestRows">
                 <tr>
-                  <td class="request-number">#1042</td>
                   <td class="request-title">Αλλαγή τίτλου αρχικής σελίδας</td>
                   <td>Αρχική</td>
                   <td><span class="status status-new">Νέο</span></td>
@@ -865,7 +849,6 @@
                   <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
                 <tr>
-                  <td class="request-number">#1041</td>
                   <td class="request-title">Αλλαγή φωτογραφίας ομάδας</td>
                   <td>Σχετικά με εμάς</td>
                   <td><span class="status status-progress">Σε εξέλιξη</span></td>
@@ -873,7 +856,6 @@
                   <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
                 <tr>
-                  <td class="request-number">#1040</td>
                   <td class="request-title">Νέο case study</td>
                   <td>Projects</td>
                   <td><span class="status status-review">Για έγκριση</span></td>
@@ -881,7 +863,6 @@
                   <td><button class="ellipsis" aria-label="Επιλογές"><i data-lucide="more-horizontal"></i></button></td>
                 </tr>
                 <tr data-completed-at="2026-09-01T12:00:00.000Z">
-                  <td class="request-number">#1039</td>
                   <td class="request-title">Ενημέρωση φόρμας επικοινωνίας</td>
                   <td>Επικοινωνία</td>
                   <td><span class="status status-done">Ολοκληρώθηκε</span></td>
@@ -900,7 +881,7 @@
 <aside class="request-drawer" id="requestDrawer">
   <div class="drawer-head">
     <div>
-      <p class="intro">Αίτημα #1042</p>
+      <p class="intro">Αίτημα</p>
       <h2 id="drawerTitle">Αλλαγή τίτλου αρχικής σελίδας</h2>
     </div>
     <button class="close-modal" id="closeDrawer" aria-label="Κλείσιμο">
@@ -1134,7 +1115,6 @@ function imageToDataUrl(file) {
       const row = document.createElement("tr");
       
       row.innerHTML = `
-        <td class="request-number">#1043</td>
         <td class="request-title"></td>
         <td></td>
         <td><span class="status status-new">Νέο</span></td>
@@ -1149,7 +1129,7 @@ function imageToDataUrl(file) {
       websiteLabel.className = "request-website-label";
       websiteLabel.textContent = website;
       row.querySelector(".request-title").appendChild(websiteLabel);
-      row.children[2].textContent = area;
+      row.children[1].textContent = area;
       row.dataset.area = area;
       row.dataset.website = website;
       row.dataset.priority = priority;
@@ -1227,7 +1207,7 @@ document.getElementById("drawerStatus").value =
   row.dataset.title || row.querySelector(".request-title").textContent;
 
   document.getElementById("drawerArea").textContent =
-    row.dataset.area || row.children[2].textContent;
+    row.dataset.area || row.children[1].textContent;
 
   const drawerImages = document.getElementById("drawerImages");
 const images = JSON.parse(row.dataset.images || "[]");
@@ -1341,6 +1321,7 @@ function loadRequests() {
   const savedRequests = localStorage.getItem(REQUESTS_STORAGE_KEY);
   rows.innerHTML = moveExpiredRows(savedRequests || rows.innerHTML);
   [...rows.rows].forEach(row => {
+    if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
     if (["Run", "Jane", "Run!"].includes(row.dataset.website)) {
       row.dataset.website = "Run Jane Run";
       const label = row.querySelector(".request-website-label");

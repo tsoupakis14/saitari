@@ -244,7 +244,7 @@
       min-height: 46px;
       border: 1px solid var(--border);
       border-radius: 10px;
-      padding: 0 13px;
+      padding: 0 25px 0 13px;
       outline: none;
       background: white;
       color: var(--text);
@@ -301,27 +301,19 @@
     tbody tr:hover { background: #fafbff; }
     tbody tr:last-child td { border-bottom: 0; }
 
-    .request-number { color: #8190ae; font-size: .8rem; }
     .request-title { color: var(--text); font-weight: 650; }
 
     .status {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      min-height: 38px;
-      padding: 0 16px;
-      border-radius: 999px;
-      font-size: .81rem;
+      min-height: 34px;
+      padding: 6px 12px;
+      border: 1px solid currentColor;
+      border-left-width: 4px;
+      border-radius: 7px;
+      font-size: .78rem;
       font-weight: 650;
       white-space: nowrap;
-    }
-
-    .status::before {
-      content: "";
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-      background: currentColor;
     }
 
     .status-new { color: #5d55eb; background: #eeedff; }
@@ -404,23 +396,11 @@
         </a>
         <a class="nav-item" href="websites.html">
           <i data-lucide="monitor"></i>
-          <span>Websites</span>
+          <span>Πελάτες</span>
         </a>
         <a class="nav-item" href="archive.html">
           <i data-lucide="archive"></i>
           <span>Αρχεία</span>
-        </a>
-        <a class="nav-item" href="#">
-          <i data-lucide="message-square"></i>
-          <span>Μηνύματα</span>
-        </a>
-      </div>
-
-      <div class="nav-group">
-        <p class="nav-label">Ρυθμίσεις</p>
-        <a class="nav-item" href="#">
-          <i data-lucide="settings"></i>
-          <span>Ρυθμίσεις</span>
         </a>
       </div>
 
@@ -437,7 +417,7 @@
     <nav class="mobile-nav" aria-label="Κύρια πλοήγηση">
       <a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
       <a class="active" href="requests.html" aria-current="page"><i data-lucide="file-text"></i><span>Αιτήματα</span></a>
-      <a href="websites.html"><i data-lucide="monitor"></i><span>Websites</span></a>
+      <a href="websites.html"><i data-lucide="monitor"></i><span>Πελάτες</span></a>
       <a href="archive.html"><i data-lucide="archive"></i><span>Αρχεία</span></a>
     </nav>
 
@@ -489,7 +469,6 @@
             <table>
               <thead>
                 <tr>
-                  <th>#</th>
                   <th>Αίτημα</th>
                   <th>Σελίδα</th>
                   <th>Κατάσταση</th>
@@ -598,8 +577,10 @@
           copy.dataset.website = "Run Jane Run";
         }
 
+        // Συμβατότητα με αιτήματα που αποθηκεύτηκαν πριν αφαιρεθεί η στήλη #.
+        if (copy.cells[0]?.classList.contains("request-number")) copy.deleteCell(0);
         // Αφαιρεί τη στήλη με τις επιλογές, αν υπάρχει.
-        if (copy.cells.length > 5) copy.deleteCell(copy.cells.length - 1);
+        if (copy.cells.length > 4) copy.deleteCell(copy.cells.length - 1);
 
         copy.addEventListener("click", () => {
           const title = copy.dataset.title || copy.querySelector(".request-title")?.textContent.trim() || "";
