@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Αρχείο — Saitari</title>
-<link rel="icon" type="image/png" href="/saitari-favicon-32.png">
-<link rel="apple-touch-icon" href="/saitari-site-icon.png">
+<link rel="icon" type="image/svg+xml" href="/assets/saitari-favicon.svg">
+  <link rel="icon" type="image/png" sizes="32x32" href="/assets/saitari-favicon-32.png">
+<link rel="apple-touch-icon" href="/assets/saitari-site-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/lucide@latest"></script>
@@ -22,7 +23,7 @@
 </style>
 </head>
 <body><div class="app">
-<aside class="sidebar"><div class="brand"><img class="brand-mark-image" src="/saitari-site-icon.png" alt=""><span>Saitari</span></div><div class="nav-group"><p class="nav-label">Workspace</p><a class="nav-item" href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a><a class="nav-item" href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a><a class="nav-item" href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a><a class="nav-item active" href="archive.html" aria-current="page"><i data-lucide="archive"></i><span>Αρχείο</span></a></div><div class="sidebar-footer"><div class="profile"><span class="avatar">NT</span><div><strong>Tasos</strong><small>Designer</small></div></div></div></aside>
+<aside class="sidebar"><div class="brand"><img class="brand-mark-image" src="/assets/saitari-icon.svg" alt=""><span>Saitari</span></div><div class="nav-group"><p class="nav-label">Workspace</p><a class="nav-item" href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a><a class="nav-item" href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a><a class="nav-item" href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a><a class="nav-item active" href="archive.html" aria-current="page"><i data-lucide="archive"></i><span>Αρχείο</span></a></div><div class="sidebar-footer"><div class="profile"><span class="avatar">NT</span><div><strong>Tasos</strong><small>Designer</small></div></div></div></aside>
 <nav class="mobile-nav" aria-label="Κύρια πλοήγηση"><a href="index.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a><a href="websites.html"><i data-lucide="users-round"></i><span>Πελάτες</span></a><a href="requests.html"><i data-lucide="file-text"></i><span>Αιτήματα</span></a><a class="active" href="archive.html" aria-current="page"><i data-lucide="archive"></i><span>Αρχείο</span></a></nav>
 <div class="content"><header class="topbar"><label class="search"><i data-lucide="search"></i><input id="archiveSearch" type="search" placeholder="Αναζήτηση αιτημάτων..." aria-label="Αναζήτηση αιτημάτων"></label><div class="top-actions"><button class="icon-button" aria-label="Ειδοποιήσεις"><i data-lucide="bell"></i></button><div class="account">Tasos <i data-lucide="chevron-down"></i></div></div></header><main><section class="page-header"><h1>Αρχείο</h1><p class="intro">Τα ολοκληρωμένα αιτήματα παραμένουν εδώ μέχρι να τα διαγράψεις.</p></section><p class="count" id="count"></p><section class="panel"><table><thead><tr><th>Αίτημα</th><th>Πελάτης</th><th>Σελίδα</th><th>Κατάσταση</th><th>Υποβλήθηκε</th><th>Ολοκληρώθηκε</th><th></th></tr></thead><tbody id="archiveRows"></tbody></table><div id="empty" class="empty" hidden>Δεν υπάρχουν ολοκληρωμένα αιτήματα στο αρχείο.</div></section></main></div></div>
 <script>
