@@ -1385,7 +1385,9 @@ function loadRequests() {
   lucide.createIcons();
 }
 
-loadRequests();
+window.SaitariCloud.ready.then((ok) => {
+  if (ok) loadRequests();
+});
 document.getElementById("topSearch").addEventListener("input", setDashboardCounts);
 
     let activeRequestRow = null;
@@ -1513,7 +1515,7 @@ function updateRequestStatus(row, status) {
     return;
   }
   if (status === "Ολοκληρώθηκε") {
-    rows.innerHTML = moveExpiredRows(rows.innerHTML);
+    rows.innerHTML = moveExpiredRows(savedRequests ?? "");
     closeDrawer();
     activeRequestRow = null;
   }
