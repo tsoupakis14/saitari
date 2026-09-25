@@ -82,6 +82,8 @@
 <script src="saitari-supabase.js"></script>
 <script>
 (async function () {
+  if (window.lucide) lucide.createIcons();
+  
   const cloudReady = await window.SaitariCloud.ready;
   if (!cloudReady) return;
     const isAdmin = window.SaitariCloud.role === "admin";
