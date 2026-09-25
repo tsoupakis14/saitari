@@ -4,13 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="description" content="Saitari — client portal για αιτήματα αλλαγών website." />
-  <title>Saitari — Dashboard</title>
+  <title>Saitari — Dashboard
+    <link rel="icon" type="image/svg+xml" href="assets/saitari-favicon.svg">
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/saitari-favicon-32.png">
+    <link rel="apple-touch-icon" href="assets/saitari-site-icon.png">
+  </title>
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
   <script src="https://unpkg.com/lucide@latest"></script>
-
+  
   <style>
     :root {
       --ink: #0b1020;
@@ -795,6 +799,13 @@
     .drawer-actions { padding:18px 0 28px; border-bottom:1px solid var(--border); margin-bottom:22px; }
     .danger-button { min-height:40px;display:inline-flex;align-items:center;gap:8px;border:1px solid #f1caca;border-radius:9px;padding:0 13px;background:#fff;color:#b42318;font-size:.84rem;font-weight:650;cursor:pointer; }
     .danger-button svg { width:16px;height:16px; }
+    .brand-mark-image {
+  width: 33px;
+  height: 33px;
+  display: block;
+  object-fit: contain;
+  border-radius: 9px;
+}
   </style>
 </head>
 
@@ -802,7 +813,7 @@
   <div class="app">
     <aside class="sidebar">
       <div class="brand">
-        <span class="brand-mark">S</span>
+        <img class="brand-mark-image" src="assets/saitari-icon.svg" alt="">
         <span>Saitari</span>
       </div>
 
@@ -1046,12 +1057,11 @@
 <script src="saitari-supabase.js"></script>
 <script>
 (async function () {
+  lucide.createIcons();
+
   const cloudReady = await window.SaitariCloud.ready;
   if (!cloudReady) return;
-    const isAdmin = window.SaitariCloud.role === "admin";
-    if (!isAdmin) { document.getElementById("drawerStatus").closest(".field").style.display = "none"; document.getElementById("deleteRequest").style.display = "none"; document.querySelectorAll(".ellipsis").forEach(button => button.style.display = "none"); }
-
-    lucide.createIcons();
+  const isAdmin = window.SaitariCloud.role === "admin";
 
     const modal = document.getElementById("modal");
     const form = document.getElementById("requestForm");
