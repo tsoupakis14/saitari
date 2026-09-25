@@ -1398,7 +1398,7 @@ function saveRequests() {
 
 function loadRequests() {
   const savedRequests = localStorage.getItem(REQUESTS_STORAGE_KEY);
-  rows.innerHTML = moveExpiredRows(savedRequests || rows.innerHTML);
+  rows.innerHTML = moveExpiredRows(savedRequests ?? "");
   [...rows.rows].forEach(row => {
     if (row.cells[0]?.classList.contains("request-number")) row.deleteCell(0);
     if (["Run", "Jane", "Run!"].includes(row.dataset.website)) {
