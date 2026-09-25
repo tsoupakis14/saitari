@@ -21,6 +21,10 @@
 
   let client;
   let activeUser;
+  let activeProfile;
+  let appProfiles = [];
+  let knownRequestIds = new Set();
+  let knownCommentIds = new Set();
   let syncing = false;
   let syncTimer;
   let lastSnapshot = "";
@@ -105,7 +109,18 @@
   }
 
   function addSignOut() {
+    const label = activeProfile?.display_name || activeProfile?.email || "Χρήστης";
     const account = document.querySelector(".account");
+    if (account) {
+      const textNode = [...account.childNodes].find(node => node.nodeType === Node.TEXT_NODE);
+      if (textNode) textNode.textContent = label + " ";
+      else account.insertBefore(document.createTextNode(label + " "), account.firstChild);
+    }
+    document.querySelectorAll(".profile strong").forEach(node => { node.textContent = label; });
+    document.querySelectorAll(".profile small").forEach(node => { node.textContent = activeProfile?.role === "admin" ? "Admin" : "Πελάτης"; });
+    document.querySelectorAll(".avatar").forEach(node => {
+      node.textContent = label.split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(part => part[0].toLocaleUpperCase("el")).join("") || "S";
+    });
     const target = document.querySelector(".top-actions") || account;
     if (!target || target.querySelector(".saitari-cloud-exit")) return;
     const button = document.createElement("button");
@@ -183,6 +198,7 @@
 
   async function fetchCloud() {
     const results = await Promise.all([
+      client.from("profiles").select("user_id,email,display_name,role"),
       client.from("projects").select("*").order("created_at", { ascending: true }),
       client.from("requests").select("*").is("deleted_at", null).order("created_at", { ascending: false }),
       client.from("comments").select("*").order("created_at", { ascending: true }),
@@ -190,7 +206,7 @@
     ]);
     const failure = results.find(result => result.error);
     if (failure) throw failure.error;
-    return { projects: results[0].data || [], requests: results[1].data || [], comments: results[2].data || [], attachments: results[3].data || [] };
+    return { profiles: results[0].data || [], projects: results[1].data || [], requests: results[2].data || [], comments: results[3].data || [], attachments: results[4].data || [] };
   }
 
   function normalizeRow(row) {
@@ -220,7 +236,8 @@
     const pendingImages = [];
     const keepPaths = new Set();
 
-    for (const p of projects.filter(item => item && item.name && !deleted.has(item.name))) {
+    const isAdmin = activeProfile?.role === "admin";
+    for (const p of (isAdmin ? projects.filter(item => item && item.name && !deleted.has(item.name)) : projects.filter(item => item && item.name))) {
       p.cloudId = p.cloudId || uuid();
       projectMap.set(p.name, p.cloudId);
       let logoPath = p.logoPath || null;
@@ -230,6 +247,7 @@
         pendingImages.push({ dataUrl: p.logo, path: logoPath, fileName: `${p.name}-logo`, parent: { project_id: p.cloudId }, replace: url => { p.logo = url; } });
       }
       if (logoPath) keepPaths.add(logoPath);
+      if (!isAdmin) continue;
       projectPayload.push({
         id: p.cloudId,
         owner_id: activeUser.id,
@@ -238,18 +256,19 @@
         project_type: p.type || "Website",
         description: p.description || "",
         website_url: p.url || null,
+        client_user_id: p.clientUserId || null,
         status: p.status === "Ανενεργός" ? "Ανενεργός" : "Ενεργός",
         logo_path: logoPath,
         updated_at: p.updatedAt ? new Date(p.updatedAt).toISOString() : new Date().toISOString()
       });
     }
-    if (projectPayload.length) {
+    if (isAdmin && projectPayload.length) {
       const { error } = await client.from("projects").upsert(projectPayload, { onConflict: "id" });
       if (error) throw error;
     }
     await uploadPending(pendingImages);
     pendingImages.length = 0;
-    localStorage.setItem(KEYS.projects, JSON.stringify(projects));
+    if (isAdmin) localStorage.setItem(KEYS.projects, JSON.stringify(projects));
 
     const rowGroups = [KEYS.requests, KEYS.archived, KEYS.history].map(key => ({ key, rows: parseRows(localStorage.getItem(key)).map(normalizeRow) }));
     const sourceRows = rowGroups.flatMap(group => group.rows);
@@ -275,7 +294,7 @@
       const projectId = projectMap.get(projectName) || null;
       const createdAt = row.dataset.createdAt || new Date().toISOString();
       row.dataset.createdAt = createdAt;
-      requestPayload.push({
+      const requestRecord = {
         id,
         owner_id: activeUser.id,
         project_id: projectId,
@@ -289,7 +308,8 @@
         completed_at: status === "Ολοκληρώθηκε" ? (row.dataset.completedAt || createdAt) : null,
         archived_at: row.dataset.archivedAt || null,
         deleted_at: null
-      });
+      };
+      if (isAdmin || !knownRequestIds.has(id)) requestPayload.push(requestRecord);
 
       for (let index = 0; index < images.length; index++) {
         if (!String(images[index]).startsWith("data:")) {
@@ -317,7 +337,7 @@
           keepPaths.add(imagePath);
           pendingImages.push({ dataUrl: comment.image, path: imagePath, fileName: "comment-image", parent: { comment_id: comment.id }, replace: url => { comment.image = url; row.dataset.comments = JSON.stringify(comments); } });
         } else if (imagePath) keepPaths.add(imagePath);
-        commentPayload.push({
+        const commentRecord = {
           id: comment.id,
           owner_id: activeUser.id,
           request_id: id,
@@ -325,18 +345,27 @@
           sender_role: comment.role === "client" ? "client" : "designer",
           body: comment.text || "",
           created_at: commentCreated
-        });
+        };
+        if (isAdmin || !knownCommentIds.has(comment.id)) commentPayload.push(commentRecord);
       }
       row.dataset.comments = JSON.stringify(comments);
     }
 
     if (requestPayload.length) {
-      const { error } = await client.from("requests").upsert(requestPayload, { onConflict: "id" });
+      const requestWrite = isAdmin
+        ? client.from("requests").upsert(requestPayload, { onConflict: "id" })
+        : client.from("requests").insert(requestPayload);
+      const { error } = await requestWrite;
       if (error) throw error;
+      requestPayload.forEach(item => knownRequestIds.add(item.id));
     }
     if (commentPayload.length) {
-      const { error } = await client.from("comments").upsert(commentPayload, { onConflict: "id" });
+      const commentWrite = isAdmin
+        ? client.from("comments").upsert(commentPayload, { onConflict: "id" })
+        : client.from("comments").insert(commentPayload);
+      const { error } = await commentWrite;
       if (error) throw error;
+      commentPayload.forEach(item => knownCommentIds.add(item.id));
     }
     await uploadPending(pendingImages);
 
@@ -353,6 +382,7 @@
     });
 
     // Remove cloud rows deleted in the UI, once the browser has loaded the full cloud snapshot.
+    if (!isAdmin) return;
     const [remoteRequests, remoteProjects, remoteComments, remoteAttachments] = await Promise.all([
       client.from("requests").select("id"), client.from("projects").select("id"), client.from("comments").select("id"), client.from("attachments").select("id,storage_path")
     ]);
@@ -421,11 +451,17 @@
       if (attachment.project_id) attachmentByProject.set(attachment.project_id, value);
     }
 
+    appProfiles = cloud.profiles;
+    knownRequestIds = new Set(cloud.requests.map(item => item.id));
+    knownCommentIds = new Set(cloud.comments.map(item => item.id));
+    const profileById = new Map(cloud.profiles.map(profile => [profile.user_id, profile]));
     const projects = cloud.projects.map(project => {
       const logo = attachmentByProject.get(project.id);
       return {
         id: project.name.toLowerCase().replace(/[^a-z0-9]+/g, "-") || project.id,
         cloudId: project.id,
+        clientUserId: project.client_user_id || "",
+        assignedClientEmail: profileById.get(project.client_user_id)?.email || "",
         name: project.name,
         client: project.client_name || "",
         description: project.description || "",
@@ -439,6 +475,7 @@
     });
     localStorage.setItem(KEYS.projects, JSON.stringify(projects));
     localStorage.setItem(KEYS.deletedProjects, "[]");
+    localStorage.setItem("saitari-cloud-has-projects", cloud.projects.length ? "true" : "false");
 
     const commentsByRequest = new Map();
     for (const comment of cloud.comments) {
@@ -446,6 +483,7 @@
       commentsByRequest.set(comment.request_id, [...(commentsByRequest.get(comment.request_id) || []), {
         id: comment.id,
         author: comment.author_name || "Tasos",
+        role: comment.sender_role === "client" ? "client" : "designer",
         text: comment.body,
         image: attach?.url || "",
         imagePath: attach?.storage_path || "",
@@ -521,20 +559,28 @@
       });
       document.querySelector(".saitari-auth-shade")?.remove();
     }
+    const { data: profile, error: profileError } = await client.from("profiles")
+      .select("user_id,email,display_name,role").eq("user_id", activeUser.id).single();
+    if (profileError || !profile) throw profileError || new Error("Δεν βρέθηκε προφίλ χρήστη.");
+    activeProfile = profile;
     addSignOut();
 
     progress("Φόρτωση δεδομένων…");
     const cloud = await fetchCloud();
+    appProfiles = cloud.profiles;
+    knownRequestIds = new Set(cloud.requests.map(item => item.id));
+    knownCommentIds = new Set(cloud.comments.map(item => item.id));
     const cloudHasData = cloud.projects.length || cloud.requests.length;
     const localHasData = Boolean(localStorage.getItem(KEYS.projects) || localStorage.getItem(KEYS.requests) || localStorage.getItem(KEYS.archived));
-    if (!cloudHasData && localHasData) {
+    if (!cloudHasData && localHasData && activeProfile.role === "admin") {
       progress("Μεταφορά πελατών, αιτημάτων και εικόνων… Μην κλείσεις τη σελίδα.");
       await importLocalSnapshot();
       await hydrateLocal();
-    } else if (cloudHasData) {
+    } else if (cloudHasData || activeProfile.role === "client") {
       await hydrateLocal();
     } else {
       localStorage.setItem("saitari-cloud-ready", "true");
+      localStorage.setItem("saitari-cloud-has-projects", "false");
       await backupLocal();
     }
     lastSnapshot = localSnapshot();
@@ -542,17 +588,23 @@
   }
 
   async function syncNow() {
-    if (!activeUser || syncing || localStorage.getItem("saitari-cloud-ready") !== "true") return;
+    if (!activeUser || localStorage.getItem("saitari-cloud-ready") !== "true") return false;
+    if (syncing) {
+      for (let attempt = 0; attempt < 40 && syncing; attempt++) await new Promise(resolve => setTimeout(resolve, 100));
+      if (syncing) return false;
+    }
     const current = localSnapshot();
-    if (current === lastSnapshot) return;
+    if (current === lastSnapshot) return true;
     syncing = true;
     try {
       await importLocalSnapshot();
       lastSnapshot = localSnapshot();
       document.querySelector(".saitari-cloud-warning")?.remove();
+      return true;
     } catch (error) {
       console.error("Saitari Supabase sync failed", error);
       warn("Δεν συγχρονίστηκε ακόμη με το Supabase. Τα δεδομένα παραμένουν αποθηκευμένα σε αυτή τη συσκευή· έλεγξε τη σύνδεση και ξαναφόρτωσε τη σελίδα.");
+      return false;
     } finally {
       syncing = false;
     }
@@ -598,5 +650,10 @@
     return false;
   });
 
-  window.SaitariCloud = { ready, startWatching, syncNow };
+  window.SaitariCloud = {
+    ready, startWatching, syncNow,
+    get role() { return activeProfile?.role || "client"; },
+    get profile() { return activeProfile || null; },
+    get profiles() { return appProfiles; }
+  };
 })();

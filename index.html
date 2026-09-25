@@ -1077,6 +1077,8 @@
 (async function () {
   const cloudReady = await window.SaitariCloud.ready;
   if (!cloudReady) return;
+    const isAdmin = window.SaitariCloud.role === "admin";
+    if (!isAdmin) { document.getElementById("drawerStatus").closest(".field").style.display = "none"; document.getElementById("deleteRequest").style.display = "none"; document.querySelectorAll(".ellipsis").forEach(button => button.style.display = "none"); }
 
     lucide.createIcons();
 
@@ -1089,6 +1091,7 @@
     try {
       const projects = JSON.parse(localStorage.getItem("saitari-projects") || "[]");
       const websiteSelect = document.getElementById("website");
+      if (!isAdmin) [...websiteSelect.options].forEach(option => { if (option.value) option.remove(); });
       projects.forEach(project => {
         if (![...websiteSelect.options].some(option => option.value === project.name)) {
           const option = document.createElement("option");
@@ -1430,7 +1433,7 @@ function renderComments() {
 
   comments.forEach((comment) => {
     const item = document.createElement("article");
-    item.className = "comment-item";
+    item.className = "comment-item" + (comment.role ? " comment-" + comment.role : "");
 
     const author = document.createElement("strong");
     author.textContent = comment.author;
@@ -1468,7 +1471,8 @@ document.getElementById("commentForm").addEventListener("submit", (event) => {
   const comments = JSON.parse(activeRequestRow.dataset.comments || "[]");
 
   comments.push({
-    author: "Tasos",
+    author: window.SaitariCloud.profile?.display_name || window.SaitariCloud.profile?.email || "Χρήστης",
+    role: window.SaitariCloud.role === "admin" ? "designer" : "client",
     text: text,
     image: selectedCommentImage,
     date: new Date().toLocaleString("el-GR")
