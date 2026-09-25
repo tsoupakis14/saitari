@@ -580,10 +580,10 @@
       return row.cells[index]?.textContent.trim() || "";
     }
 
-    const DEMO_WEBSITES = ["Saitari", "Kritivela", "Calendrai", "Portfolio", "Run Jane Run", "Football Quiz", "Fun Quiz"];
+  
 
     function populateWebsiteFilter(rows) {
-      const websites = new Set(DEMO_WEBSITES);
+      const websites = new Set();
       try {
         JSON.parse(localStorage.getItem("saitari-projects") || "[]").forEach(project => websites.add(project.name));
       } catch (error) {}
