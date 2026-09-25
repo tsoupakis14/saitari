@@ -119,9 +119,7 @@
     }
     document.querySelectorAll(".profile strong").forEach(node => { node.textContent = label; });
     document.querySelectorAll(".profile small").forEach(node => { node.textContent = activeProfile?.role === "admin" ? "Admin" : "Πελάτης"; });
-    document.querySelectorAll(".avatar").forEach(node => {
-      node.textContent = label.split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(part => part[0].toLocaleUpperCase("el")).join("") || "S";
-    });
+    
     const target = document.querySelector(".top-actions") || account;
     document.querySelectorAll(".account, .profile").forEach(element => {
       element.style.visibility = "visible";
