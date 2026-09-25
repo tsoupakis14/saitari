@@ -47,6 +47,7 @@
       .saitari-cloud-warning{position:fixed;z-index:5000;right:16px;bottom:16px;max-width:min(430px,calc(100vw - 32px));padding:12px 16px;border:1px solid #f0d6a0;border-radius:10px;background:#fff8e8;color:#664b12;font:13px/1.45 Inter,Arial,sans-serif;box-shadow:0 8px 30px #0b102018}
       .saitari-cloud-progress{position:fixed;z-index:4900;right:16px;bottom:16px;max-width:min(430px,calc(100vw - 32px));padding:12px 16px;border:1px solid #dce3ef;border-radius:10px;background:#fff;color:#3c4966;font:13px/1.45 Inter,Arial,sans-serif;box-shadow:0 8px 30px #0b102018}
       @media(max-width:600px){.saitari-auth-card{padding:24px}.saitari-auth-card h1{font-size:24px}}
+      .account, .profile { visibility: hidden; }
     `;
     document.head.appendChild(style);
   }
@@ -122,6 +123,9 @@
       node.textContent = label.split(/[\s@.]+/).filter(Boolean).slice(0, 2).map(part => part[0].toLocaleUpperCase("el")).join("") || "S";
     });
     const target = document.querySelector(".top-actions") || account;
+    document.querySelectorAll(".account, .profile").forEach(element => {
+      element.style.visibility = "visible";
+    });
     if (!target || target.querySelector(".saitari-cloud-exit")) return;
     const button = document.createElement("button");
     button.type = "button";
